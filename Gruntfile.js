@@ -255,9 +255,9 @@ module.exports = function (grunt) {
     // Run unit tests
 
     if(process.env.TRAVIS){
-        grunt.registerTask('validate', ['jshint', 'test', 'cov-travis']);
-    }else{
         grunt.registerTask('validate', ['jshint', 'test', 'mochacov:travis']);
+    }else{
+        grunt.registerTask('validate', ['jshint', 'test']);
     }
 
     grunt.registerTask('test', ['setTestEnv', 'mochacli:all']);
