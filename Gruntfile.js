@@ -264,8 +264,6 @@ module.exports = function (grunt) {
 
     // Generate code coverage
     grunt.registerTask('cov', ['setTestEnv', 'mochacov:html']);
-    
-    grunt.registerTask('validate', ['jshint', 'test']);
 
     grunt.registerTask('prod', ['less', 'handlebars', 'concat', 'copy', 'uglify']);
 
