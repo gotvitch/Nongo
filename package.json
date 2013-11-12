@@ -52,7 +52,8 @@
     "superagent": "~0.15.7",
     "grunt-mocha-cov": "0.0.7",
     "blanket": "~1.1.5",
-    "grunt-blanket": "0.0.8"
+    "grunt-blanket": "0.0.8",
+    "mocha": "~1.14.0"
   },
   "directories": {
     "test": "test"
