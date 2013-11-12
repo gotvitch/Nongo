@@ -38,45 +38,59 @@ module.exports = function (grunt) {
             }
         },
 
-        // JSLint all the things!
-        jslint: {
+        // JSHint all the things!
+        jshint: {
+            options: {
+                esnext: true,
+                bitwise: true,
+                curly: true,
+                eqeqeq: true,
+                immed: true,
+                indent: 4,
+                latedef: true,
+                newcap: true,
+                quotmark: 'single',
+                undef: true,
+                trailing: true,
+                smarttabs: true,
+                proto: true
+            },
             server: {
-                directives: {
-                    // node environment
+                options: {
                     node: true,
-                    // browser environment
                     browser: false,
-                    // allow dangling underscores in var names
-                    nomen: true,
-                    // allow to do statements
-                    todo: true,
-                    // allow unused parameters
-                    unparam: true,
-                    // don't require use strict pragma
-                    sloppy: true
+                    proto: true,
+                    globals: {
+                        describe: true,
+                        it: true,
+                        before: true,
+                        beforeEach: true,
+                        after: true,
+                        afterEach: true,
+                        should: true
+                    }
                 },
                 files: {
                     src: [
                         '*.js',
-                        'server/*.js'
+                        'server/**/**/*.js',
+                        'tests/unit/**/*.js'
                     ]
                 }
             },
+
+
+
+
             client: {
-                directives: {
+                options: {
                     // node environment
                     node: false,
                     // browser environment
-                    browser: true,
-                    // allow dangling underscores in var names
-                    nomen: true,
-                    // allow to do statements
-                    todo: true,
-                     // allow unused parameters
-                    unparam: true
+                    browser: true
                 },
                 files: {
-                    src: '<%= paths.app %>/**/*.js'
+                    src: ['<%= paths.app %>/**/*.js', '!<%= paths.app %>/bower_components/**']
                 },
                 exclude: [
                     '<%= paths.app %>/assets/**/*.js',
@@ -86,6 +100,7 @@ module.exports = function (grunt) {
             }
         },
 
+
         mochacli: {
             options: {
                 ui: 'bdd',
@@ -94,41 +109,18 @@ module.exports = function (grunt) {
             },
 
             all: {
-                src: ['core/test/unit/**/*_spec.js']
+                src: ['tests/unit/**/*_spec.js']
             },
 
             api: {
-                src: ['core/test/unit/**/api*_spec.js']
-            },
-
-            client: {
-                src: ['core/test/unit/**/client*_spec.js']
-            },
-
-            server: {
-                src: ['core/test/unit/**/server*_spec.js']
-            },
-
-            shared: {
-                src: ['core/test/unit/**/shared*_spec.js']
-            },
-
-            perm: {
-                src: ['core/test/unit/**/permissions_spec.js']
-            },
-
-            migrate: {
-                src: [
-                    'core/test/unit/**/export_spec.js',
-                    'core/test/unit/**/import_spec.js'
-                ]
+                src: ['tests/unit/**/api*_spec.js']
             }
         },
 
         less: {
             app: {
                 options: {
-                    paths: ["<%= paths.app %>/assets/less"]
+                    paths: ['<%= paths.app %>/assets/less']
                 },
                 files: {
                     '<%= paths.build %>/css/app.css': '<%= paths.app %>/assets/less/app.less'
@@ -139,13 +131,13 @@ module.exports = function (grunt) {
         handlebars: {
             compile: {
                 options: {
-                    namespace: "Nongo.Templates",
+                    namespace: 'Nongo.Templates',
                     processName: function (filePath) {
                         return filePath.slice(filePath.lastIndexOf('/') + 1, -4);
                     }
                 },
                 files: {
-                    "<%= paths.build %>/js/templates.js": "<%= paths.app %>/templates/*.hbs"
+                    '<%= paths.build %>/js/templates.js': '<%= paths.app %>/templates/*.hbs'
                 }
             }
         },
@@ -194,11 +186,20 @@ module.exports = function (grunt) {
                     // includes files within path
                     {
                         expand: true,
-                        dest: 'dest/fonts',
+                        cwd: '<%= paths.app %>/bower_components/bootstrap/dist/fonts',
+                        dest: '<%= paths.build %>/fonts/',
                         filter: 'isFile',
                         src: [
-                            '<%= paths.app %>/bower_components/bootstrap/dist/fonts',
-                            '<%= paths.app %>/assets/fonts'
+                            '*'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= paths.app %>/assets/fonts',
+                        dest: '<%= paths.build %>/fonts/',
+                        filter: 'isFile',
+                        src: [
+                            '*'
                         ]
                     }
                 ]
@@ -211,37 +212,42 @@ module.exports = function (grunt) {
                     '<%= config.build %>/js/nongo.min.js': '<%= config.build %>/js/nongo.js'
                 }
             }
+        },
+
+        mochacov: {
+            options: {
+                files: 'tests/unit/*.js'
+                
+                //require: ['should'],
+                //output: 'cov.html'
+            },
+            coverage: {
+                options: {
+                    coveralls: {
+                        serviceName: 'travis-ci'
+                    }
+                }
+            }
+        },
+        blanket: {
+            instrument: {
+                // options: {
+                //     debug: true
+                // },
+                files: {
+                    'cov/': ['server/'],
+                },
+            }
         }
     });
 
     grunt.registerTask('setTestEnv', function () {
-        // Use 'testing' Ghost config; unless we are running on travis (then show queries for debugging)
-        process.env.NODE_ENV = process.env.TRAVIS ? 'travis' : 'testing';
+        //process.env.NODE_ENV = process.env.TRAVIS ? 'travis' : 'testing';
+        process.env.NODE_ENV = 'testing';
     });
 
-    // grunt.registerTask("build", [
-    //     "handlebars",
-    //     "concat",
-    //     "uglify",
-    //     "clean:build",
-    //     "copy:build",
-    //     "compress:build"
-    // ]);
-
-    // grunt.registerTask('release', [
-    //     'shell:bourbon',
-    //     'sass:admin',
-    //     'handlebars',
-    //     'concat',
-    //     'uglify',
-    //     'changelog',
-    //     'clean:build',
-    //     'copy:build',
-    //     'compress:release'
-    // ]);
-
     // Dev Mode; watch files and restart server on changes
-    grunt.registerTask("dev", [
+    grunt.registerTask('dev', [
         'less',
         'handlebars',
         'concat',
@@ -251,17 +257,24 @@ module.exports = function (grunt) {
 
 
     // Run unit tests
-    grunt.registerTask('test-unit', ['setTestEnv', 'mochacli:all']);
+    grunt.registerTask('test', ['setTestEnv', 'mochacli:all']);
+
+    grunt.registerTask('cov', ['setTestEnv', 'mochacov']);
 
     // Run casperjs tests only
     //grunt.registerTask('test-functional', ['clean:test', 'setTestEnv', 'express:test', 'spawn-casperjs']);
 
     // Run tests and lint code
-    grunt.registerTask('validate', ['jslint', 'test-unit']);
+    if(process.env.TRAVIS){
+        grunt.registerTask('validate', ['jshint', 'test', 'cov']);
+    }else{
+        grunt.registerTask('validate', ['jshint', 'test']);
+    }
+    
 
     // TODO: Production build task that minifies with uglify:prod
-    grunt.registerTask("prod", ['less', 'handlebars', 'concat', 'copy', "uglify"]);
+    grunt.registerTask('prod', ['less', 'handlebars', 'concat', 'copy', 'uglify']);
 
     // When you just say "grunt"
-    grunt.registerTask("default", ['less', 'handlebars', 'concat', 'copy']);
+    grunt.registerTask('default', ['less', 'handlebars', 'concat', 'copy']);
 };

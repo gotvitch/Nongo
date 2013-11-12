@@ -1,23 +1,36 @@
 {
-  "name": "Nongo",
+  "name": "nongo",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "test": "grunt validate --verbose",
+    "blanket": {
+      "pattern": [
+        "server"
+      ]
+    }
+  },
+  "bin": {
+    "nongo": "index"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Gotvitch/Nongo.git"
   },
-  "author": "",
+  "author": "Sébastien Deduytsche",
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/Gotvitch/Nongo/issues"
   },
   "dependencies": {
-    "express": "~3.4.4",
-    "hbs": "~2.4.0"
+    "express": "3.4.2",
+    "hbs": "~2.4.0",
+    "underscore": "~1.5.2",
+    "mongodb": "~1.3.19",
+    "q": "~0.9.7",
+    "express-validator": "~1.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -30,9 +43,18 @@
     "grunt-contrib-less": "~0.7.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-jslint": "~1.0.0",
     "grunt-mocha-cli": "~1.0.6",
     "load-grunt-tasks": "~0.1.0",
-    "time-grunt": "~0.1.1"
+    "time-grunt": "~0.1.1",
+    "mongodb": "~1.3.19",
+    "commander": "~2.0.0",
+    "should": "~2.0.2",
+    "superagent": "~0.15.7",
+    "grunt-mocha-cov": "0.0.7",
+    "blanket": "~1.1.5",
+    "grunt-blanket": "0.0.8"
+  },
+  "directories": {
+    "test": "test"
   }
 }
