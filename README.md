@@ -1,4 +1,4 @@
-# [Nongo](https://github.com/Gotvitch/Nongo) [![Build Status](https://travis-ci.org/Gotvitch/Nongo.png?branch=master)](https://travis-ci.org/Gotvitch/Nongo)
+# [Nongo](https://github.com/Gotvitch/Nongo) [![Build Status](https://travis-ci.org/Gotvitch/Nongo.png?branch=master)](https://travis-ci.org/Gotvitch/Nongo) [![Coverage Status](https://coveralls.io/repos/Gotvitch/Nongo/badge.png?branch=master)](https://coveralls.io/r/Gotvitch/Nongo?branch=master) [![Dependency Status](https://gemnasium.com/Gotvitch/Nongo.png)](https://gemnasium.com/Gotvitch/Nongo)
 
 
 
