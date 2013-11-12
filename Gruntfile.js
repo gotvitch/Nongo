@@ -215,29 +215,25 @@ module.exports = function (grunt) {
         },
 
         mochacov: {
-            options: {
-                files: 'tests/unit/*.js'
-                
-                //require: ['should'],
-                //output: 'cov.html'
-            },
-            coverage: {
+            travis: {
                 options: {
                     coveralls: {
                         serviceName: 'travis-ci'
                     }
                 }
+            },
+            html:{
+                options: {
+                    reporter: 'html-cov',
+                    output: 'cov.html'
+                }
+            },
+            options: {
+                files: 'tests/unit/*.js',
+                timeout: 5000,
+                require: ['should']
             }
-        },
-        blanket: {
-            instrument: {
-                // options: {
-                //     debug: true
-                // },
-                files: {
-                    'cov/': ['server/'],
-                },
-            }
+
         }
     });
 
@@ -257,22 +253,20 @@ module.exports = function (grunt) {
 
 
     // Run unit tests
+
+    if(process.env.TRAVIS){
+        grunt.registerTask('validate', ['jshint', 'test', 'cov-travis']);
+    }else{
+        grunt.registerTask('validate', ['jshint', 'test', 'mochacov:travis']);
+    }
+
     grunt.registerTask('test', ['setTestEnv', 'mochacli:all']);
 
-    grunt.registerTask('cov', ['setTestEnv', 'mochacov']);
-
-    // Run casperjs tests only
-    //grunt.registerTask('test-functional', ['clean:test', 'setTestEnv', 'express:test', 'spawn-casperjs']);
-
-    // Run tests and lint code
-    if(process.env.TRAVIS){
-        grunt.registerTask('validate', ['jshint', 'test', 'cov']);
-    }else{
-        grunt.registerTask('validate', ['jshint', 'test']);
-    }
+    // Generate code coverage
+    grunt.registerTask('cov', ['setTestEnv', 'mochacov:html']);
     
+    grunt.registerTask('validate', ['jshint', 'test']);
 
-    // TODO: Production build task that minifies with uglify:prod
     grunt.registerTask('prod', ['less', 'handlebars', 'concat', 'copy', 'uglify']);
 
     // When you just say "grunt"

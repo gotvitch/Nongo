@@ -93,7 +93,7 @@ describe('API database', function () {
                     .then(function (dbs){
                         var database = _.find(dbs, function(db){ return db.name === mongoHelper.testDatabaseName; });
                         /*jshint -W030 */
-                        database.should.not.be.empty;
+                        should(database).not.be.empty;
                         /*jshint +W030 */
                         done();
                     })

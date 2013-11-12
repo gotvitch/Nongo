@@ -18,16 +18,7 @@ SYSTEM_COLLECTIONS = [
 module.exports = {
     list: function(req, res, next){
 
-        var databaseName = req.params.database,
-            errors;
-        
-        req.assert('database', 'database is required').notEmpty();
-
-        errors = req.validationErrors();
-
-        if (errors) {
-            throw new Nongo.Error.validationErrors(errors);
-        }
+        var databaseName = req.params.database;
 
         Nongo.connections
             .connectToDatabase(databaseName)
@@ -72,21 +63,20 @@ module.exports = {
             max = req.body.max,
             errors;
 
-        req.assert('database', 'database is required').notEmpty();
         req.assert('name', 'name is required').notEmpty();
 
         if(!_.isEmpty(req.body.size)){
-            req.assert('size').isInt();
+            req.assert('size', 'size must be a integer').isInt();
         }
 
         if(!_.isEmpty(req.body.max)){
-            req.assert('max').isInt();
+            req.assert('max', 'max must be a integer').isInt();
         }
 
         errors = req.validationErrors();
 
         if (errors) {
-            throw new Nongo.Error.validationErrors(errors);
+            throw new Nongo.Error.ValidationError(errors);
         }
 
         Nongo.connections
@@ -120,19 +110,7 @@ module.exports = {
     drop: function(req, res, next){
 
         var databaseName = req.params.database,
-            collectionName = req.params.collection,
-            errors;
-
-
-        req.assert('database', 'database is required').notEmpty();
-        req.assert('name', 'name is required').notEmpty();
-
-        errors = req.validationErrors();
-
-        if (errors) {
-            throw new Nongo.Error.validationErrors(errors);
-        }
-
+            collectionName = req.params.collection;
 
         Nongo.connections
             .connectToDatabase(databaseName)

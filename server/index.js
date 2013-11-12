@@ -20,7 +20,8 @@ Server = function () {
 
     app.set('views', __dirname + '/views');
     app.set('view engine', 'hbs');
-    app.use(express.bodyParser());
+    app.use(express.json());
+    app.use(express.urlencoded());
 
     app.use(middlewares.validator());
 

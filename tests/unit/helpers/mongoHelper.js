@@ -5,6 +5,9 @@ var Nongo            = require('../../../server/nongo'),
 
 var mongoHelper = {
     testDatabaseName: 'nongo_test',
+    connectToTestDatabase: function(){
+        return Nongo.connections.connectToDatabase(mongoHelper.testDatabaseName);
+    },
     dropTestDatabase: function(){
         return Nongo.connections
         .connectToDatabase(mongoHelper.testDatabaseName)
