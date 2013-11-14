@@ -245,7 +245,7 @@ module.exports = function (grunt) {
             html:{
                 options: {
                     reporter: 'html-cov',
-                    output: 'cov.html'
+                    output: 'coverage.html'
                 }
             },
             options: {
