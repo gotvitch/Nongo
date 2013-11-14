@@ -1,7 +1,5 @@
 var command = require('commander').Command,
-    fs      = require('fs'),
     path    = require('path'),
-    util    = require('util'),
     Q       = require('q');
 
 

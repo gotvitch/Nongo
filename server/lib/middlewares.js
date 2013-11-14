@@ -25,7 +25,7 @@ module.exports = {
     },
     singlePage: function(req, res, next){
         if(req.xhr){
-            next();
+            return next();
         }
 
         var skip = _.any(['/css', '/js', '/images', '/fonts', '/api'], function (url) {

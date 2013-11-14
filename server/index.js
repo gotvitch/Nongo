@@ -3,12 +3,11 @@
  */
 
 var express     = require('express'),
-    http        = require('http'),
-    program     = require('commander'),
     middlewares = require('./lib/middlewares'),
     Nongo       = require('./nongo'),
     database    = require('./routes/database'),
     collection  = require('./routes/collection'),
+    document  = require('./routes/document'),
     Q           = require('q'),
     path        = require('path'),
     Server;
@@ -63,6 +62,9 @@ Server = function () {
     app.get('/api/db/:database/collections', collection.list);
     app.post('/api/db/:database/collections', collection.create);
     app.delete('/api/db/:database/collections/:collection', collection.drop);
+
+
+    app.get('/api/db/:database/collections/:collection/documents', document.list);
 
     this.app = app;
 

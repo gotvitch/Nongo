@@ -1,0 +1,97 @@
+body {
+  position: relative;
+  padding-top: 50px;
+}
+.container {
+  width: 970px !important;
+}
+#content {
+  padding: 15px;
+}
+#database-content {
+  padding: 15px 0;
+}
+.documents {
+  list-style: none;
+  padding-left: 0;
+}
+.document-wrapper {
+  overflow-x: auto;
+}
+.document {
+  white-space: pre;
+}
+.document .key {
+  color: #073642;
+}
+.document .value {
+  color: #268bd2;
+}
+.document .string {
+  color: #D14;
+}
+.document .function {
+  color: #0086B3;
+}
+.document .number {
+  color: #099;
+}
+.shell-form {
+  color: #555;
+  position: relative;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+}
+.shell-form span {
+  position: relative;
+}
+/* line 25, ../../app/assets/stylesheets/partials/_mongoshell.scss */
+.shell-form .params {
+  font-family: "Liberation Mono", "Ubuntu Mono", monaco, "Lucida Console", "Consolas", monospace;
+  background: #322012;
+  font-size: 1em;
+  line-height: 1.5em;
+  padding: 1em .8em;
+  color: #51c441;
+}
+.shell-form .buttons {
+  background: #eee;
+  padding: .4em .8em;
+}
+.shell-form code {
+  font-size: .9em;
+  display: inline-block;
+  padding: 0em .5em;
+  margin: 0 .3em;
+}
+.shell-form .text {
+  color: #c1c7c7;
+}
+.shell-form span[contentEditable] {
+  color: #c1c7c7;
+  z-index: 1;
+  border-bottom: 1px solid #51c441;
+  display: inline-block;
+  margin: 0 .4em;
+  padding: 0 .3em;
+  position: relative;
+  min-width: 3em;
+}
+.shell-form span[contentEditable][data-type=number] {
+  min-width: .5em;
+}
+.shell-form span[contentEditable].placeholder {
+  color: #777;
+}
+.shell-form span[contentEditable]:focus {
+  outline: none;
+  color: #fff;
+}
+.shell-form span[contentEditable]::-moz-selection {
+  background: rgba(255, 255, 255, 0.6);
+  color: #292929;
+}
+.shell-form span[contentEditable]::selection {
+  background: rgba(255, 255, 255, 0.6);
+  color: #292929;
+}

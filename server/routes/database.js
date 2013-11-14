@@ -9,10 +9,22 @@ module.exports = {
             .connectToDatabase('local')
             .then(function (db) {
                 var adminDb = db.admin();
-                return Q.ninvoke(adminDb, 'listDatabases');
+                //return Q.ninvoke(adminDb, 'listDatabases');
+
+                return Q.ninvoke(adminDb, 'listDatabases')
+                .then(function (dbs) {
+                    return Q.all(dbs.databases.map(function(database){
+                        return Nongo.connections
+                        .connectToDatabase(database.name)
+                        .then(function(db){
+                            return Q.ninvoke(db, 'stats');
+                        });
+                    }));
+                });
+
             })
-            .then(function (dbs){
-                res.json(dbs.databases);
+            .then(function (databases){
+                res.json(databases);
             })
             .fail(function (err) {
                 next(err);

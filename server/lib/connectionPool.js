@@ -1,6 +1,5 @@
 // Module dependencies
-var _              = require('underscore'),
-    Db             = require('mongodb').Db,
+var Db             = require('mongodb').Db,
     Server         = require('mongodb').Server,
     Q              = require('q'),
     ConnectionPool;

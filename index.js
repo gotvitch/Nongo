@@ -3,7 +3,6 @@
  */
 
 var configLoader = require('./server/lib/configLoader'),
-    util         = require('util'),
     Nongo        = require('./server/nongo'),
     Server       = require('./server/index'),
     Q            = require('q');

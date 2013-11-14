@@ -1,7 +1,3 @@
-var path           = require('path'),
-    buildDirectory = path.resolve(process.cwd(), '.build'),
-    distDirectory  = path.resolve(process.cwd(), '.dist');
-
 
 module.exports = function (grunt) {
     // show elapsed time at the end
@@ -32,6 +28,7 @@ module.exports = function (grunt) {
                 files: [
                     '<%= paths.app %>/*.js',
                     '<%= paths.app %>/models/*.js',
+                    '<%= paths.app %>/helpers/*.js',
                     '<%= paths.app %>/views/*.js'
                 ],
                 tasks: ['concat']
@@ -44,7 +41,7 @@ module.exports = function (grunt) {
                 esnext: true,
                 bitwise: true,
                 curly: true,
-                eqeqeq: true,
+                eqeqeq: false,
                 immed: true,
                 indent: 4,
                 latedef: true,
@@ -53,13 +50,26 @@ module.exports = function (grunt) {
                 undef: true,
                 trailing: true,
                 smarttabs: true,
-                proto: true
+                proto: true,
+                sub: true,
+                unused: 'vars',
+                '-W041': true, // Remove warning for usage of == instead of ===
+                globals: {
+                    window: true,
+                    document: true,
+                    Nongo: true,
+                    '$': true,
+                    _: true,
+                    Backbone: true,
+                    Handlebars: true
+                }
             },
             server: {
                 options: {
                     node: true,
                     browser: false,
                     proto: true,
+                    eqeqeq: false,
                     globals: {
                         describe: true,
                         it: true,
@@ -87,10 +97,16 @@ module.exports = function (grunt) {
                     // node environment
                     node: false,
                     // browser environment
-                    browser: true
+                    browser: true,
+                    eqeqeq: false,
+                    evil: true
                 },
                 files: {
-                    src: ['<%= paths.app %>/**/*.js', '!<%= paths.app %>/bower_components/**']
+                    src: [
+                        '<%= paths.app %>/**/*.js',
+                        '!<%= paths.app %>/bower_components/**',
+                        '!<%= paths.app %>/assets/js/**'
+                    ]
                 },
                 exclude: [
                     '<%= paths.app %>/assets/**/*.js',
@@ -160,8 +176,10 @@ module.exports = function (grunt) {
                         '<%= paths.app %>/bower_components/underscore/underscore.js',
                         '<%= paths.app %>/bower_components/backbone/backbone.js',
                         '<%= paths.app %>/bower_components/marionette/lib/backbone.marionette.js',
+                        '<%= paths.app %>/assets/js/backbone-validation.js',
                         '<%= paths.app %>/bower_components/handlebars/handlebars.js',
-                        '<%= paths.app %>/bower_components/bootstrap/dist/js/bootstrap.js'
+                        '<%= paths.app %>/bower_components/bootstrap/dist/js/bootstrap.js',
+                        '<%= paths.app %>/assets/js/jquery-caret.js'
                     ],
 
                     '<%= paths.build %>/js/models.js': [
@@ -173,7 +191,9 @@ module.exports = function (grunt) {
                     ],
 
                     '<%= paths.build %>/js/app.js': [
-                        '<%= paths.app %>/*.js'
+                        '<%= paths.app %>/app.js',
+                        '<%= paths.app %>/router.js',
+                        '<%= paths.app %>/helpers/**/*.js'
                     ]
                 }
             },

@@ -51,7 +51,7 @@ describe('API database', function () {
                 if (res.error) {
                     done(res.error);
                 } else {
-                    res.body.should.eql(databases);
+                    res.body.should.be.instanceof(Array).and.have.lengthOf(databases.length);
                     done();
                 }
             });

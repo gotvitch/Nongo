@@ -1,0 +1,8 @@
+# .nodemonignore file
+/views/*
+/public/*
+/client/*
+/data_json/*
+/.tmp
+/.tmp/*
+/.git/*

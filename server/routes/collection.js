@@ -1,7 +1,6 @@
 var Nongo = require('../nongo'),
     Q     = require('q'),
     _     = require('underscore'),
-    util  = require('util'),
     SYSTEM_COLLECTIONS;
 
 
@@ -47,8 +46,6 @@ module.exports = {
                         indexSizes: collection.indexSizes
                     };
                 }));
-
-                res.send(util.inspect(collections));
             })
             .fail(function (err) {
                 next(err);
@@ -99,8 +96,19 @@ module.exports = {
 
                 return Q.ninvoke(db, 'createCollection', collectionName, options);
             })
-            .then(function () {
-                res.send(200);
+            .then(function (collection) {
+                return Q.ninvoke(collection, 'stats');
+            })
+            .then(function (collection) {
+                return res.json({
+                    name: collection.ns.substring(databaseName.length + 1),
+                    count: collection.count,
+                    size: collection.size,
+                    storageSize: collection.storageSize,
+                    nindexes: collection.nindexes,
+                    totalIndexSize: collection.totalIndexSize,
+                    indexSizes: collection.indexSizes
+                });
             })
             .fail(function (err) {
                 next(err);
