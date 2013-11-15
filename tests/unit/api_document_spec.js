@@ -33,7 +33,16 @@ describe('API documents', function () {
 
     after(function (done) {
         server.close();
-        done();
+
+        nongoHelper.startServer()
+        .then(function(srv){
+            server = srv;
+        })
+        .then(mongoHelper.dropTestDatabase)
+        .then(function(){
+            done();
+        })
+        .fail(done);
     });
 
 
@@ -140,7 +149,7 @@ describe('API documents', function () {
                         },
                         hello: 'world_update'
                     };
-                    
+
                     should(res.body).eql(documentExpect);
 
                     done();

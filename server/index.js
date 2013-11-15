@@ -12,7 +12,6 @@ var express     = require('express'),
     path        = require('path'),
     Server;
 
-
 Server = function () {
     var app = express();
 
