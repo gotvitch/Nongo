@@ -11,14 +11,26 @@ body {
 #database-content {
   padding: 15px 0;
 }
+.document-editor {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.document-title h3 {
+  margin-top: 0;
+}
+.document {
+  margin: 20px 0;
+}
 .documents {
   list-style: none;
   padding-left: 0;
 }
 .document-wrapper {
   overflow-x: auto;
+  margin: 0;
 }
-.document {
+.document-content {
   white-space: pre;
 }
 .document .key {

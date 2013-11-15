@@ -53,16 +53,8 @@ module.exports = function (grunt) {
                 proto: true,
                 sub: true,
                 unused: 'vars',
-                '-W041': true, // Remove warning for usage of == instead of ===
-                globals: {
-                    window: true,
-                    document: true,
-                    Nongo: true,
-                    '$': true,
-                    _: true,
-                    Backbone: true,
-                    Handlebars: true
-                }
+                '-W041': true // Remove warning for usage of == instead of ===
+                
             },
             server: {
                 options: {
@@ -88,10 +80,6 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-
-
-
-
             client: {
                 options: {
                     // node environment
@@ -99,7 +87,17 @@ module.exports = function (grunt) {
                     // browser environment
                     browser: true,
                     eqeqeq: false,
-                    evil: true
+                    evil: true,
+                    globals: {
+                        window: true,
+                        document: true,
+                        Nongo: true,
+                        '$': true,
+                        _: true,
+                        Backbone: true,
+                        Handlebars: true,
+                        CodeMirror: true
+                    }
                 },
                 files: {
                     src: [
@@ -168,7 +166,8 @@ module.exports = function (grunt) {
             dev: {
                 files: {
                     '<%= paths.build %>/css/lib.css': [
-                        '<%= paths.app %>/bower_components/bootstrap/dist/css/bootstrap.css'
+                        '<%= paths.app %>/bower_components/bootstrap/dist/css/bootstrap.css',
+                        '<%= paths.app %>/bower_components/codemirror/lib/codemirror.css'
                     ],
 
                     '<%= paths.build %>/js/lib.js': [
@@ -179,7 +178,8 @@ module.exports = function (grunt) {
                         '<%= paths.app %>/assets/js/backbone-validation.js',
                         '<%= paths.app %>/bower_components/handlebars/handlebars.js',
                         '<%= paths.app %>/bower_components/bootstrap/dist/js/bootstrap.js',
-                        '<%= paths.app %>/assets/js/jquery-caret.js'
+                        '<%= paths.app %>/assets/js/jquery-caret.js',
+                        '<%= paths.app %>/bower_components/codemirror/lib/codemirror.js'
                     ],
 
                     '<%= paths.build %>/js/models.js': [

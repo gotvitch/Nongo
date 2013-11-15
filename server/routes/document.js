@@ -1,6 +1,7 @@
 var Nongo = require('../nongo'),
     Q     = require('q'),
     _     = require('underscore'),
+    mongodb     = require('mongodb'),
     bsonParser = require('../lib/bsonParser');
 
 
@@ -52,6 +53,38 @@ module.exports = {
                 next(err);
             })
             .done();
+    },
+    update: function(req, res, next){
+        var databaseName = req.params.database,
+            collectionName = req.params.collection,
+            documentId = mongodb.ObjectID(req.params.id),
+            documentBson;
+
+        try{
+            documentBson = bsonParser.toBSON(req.body);
+        }catch(e){
+            throw new Nongo.Error.ValidationError('document', 'This document contains invalid BSON.');
+        }
+
+        Nongo.connections
+            .connectToDatabase(databaseName)
+            .then(function (db) {
+                var collection = db.collection(collectionName);
+
+                return Q.ninvoke(collection, 'update', {_id: documentId }, documentBson)
+                .then(function(){
+                    return Q.ninvoke(collection, 'findOne', {_id: documentId });
+                });
+            })
+            .then(function (document) {
+                res.json(bsonParser.formatBSON(document));
+            })
+            .fail(function (err) {
+                next(err);
+            })
+            .done();
+
+
     }
 };
 

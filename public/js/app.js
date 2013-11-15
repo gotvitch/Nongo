@@ -121,22 +121,47 @@
                     
                 }
 
-                if(typeof(value) === 'object'){
+                if(typeof(value) === 'object' && value !== null){
                     if(value['$oid'])
                     {
                         if (options.html) {
-                            result += '<span class="function">ObjectId</span>(<span class="string">"' + value['$oid'] + '"</span>), ';
+                            result += '<span class="function">ObjectId</span>(<span class="string">"' + value['$oid'] + '"</span>),';
                         } else {
-                            result += 'ObjectId("' + value['$oid'] + '"), ';
+                            result += 'ObjectId("' + value['$oid'] + '"),';
                         }
                         
                     }
                     else if(value['$date'])
                     {
                         if (options.html) {
-                            result += '<span class="function">ISODate</span>(<span class="string">"' + value['$date'] + '"</span>), ';
+                            result += '<span class="function">ISODate</span>(<span class="string">"' + value['$date'] + '"</span>),';
                         } else {
-                            result += 'ISODate("' + value['$date'] + '"), ';
+                            result += 'ISODate("' + value['$date'] + '"),';
+                        }
+                    }
+                    else if(value['$timestamp'])
+                    {
+                        if (options.html) {
+                            result += '<span class="function">Timestamp</span>(' + value['$timestamp'].t + ', ' + value['$timestamp'].i + '),';
+                        } else {
+                            result += 'Timestamp(' + value['$timestamp'].t + ', ' + value['$timestamp'].i + '),';
+                        }
+                    }
+                    else if(value['$ref'])
+                    {
+                        if (options.html) {
+                            result += '<span class="function">DBRef</span>(<span class="string">"' + value['$ref'] + '"</span>, ';
+                            result += '<span class="function">ObjectId</span>(<span class="string">"' + value['$id']['$oid'] + '"</span>';
+                            if(!_.isEmpty(value['$ref'].db)){
+                                result += ', <span class="string">"' + value['$db'] + '"</span>';
+                            }
+                            result += '),';
+                        } else {
+                            result += 'DBRef("' + value['$ref'] + '", ObjectId("' + value['$id']['$oid'] + '")';
+                            if(!_.isEmpty(value['$db'])){
+                                result += ', "' + value['$db'] + '"';
+                            }
+                            result += '),';
                         }
                     }
                     else
@@ -146,28 +171,31 @@
                             indentation: indentation,
                             html: options.html
                         });
-                        result += ', ';
+                        result += ',';
                     }
                 }else{
-
                     if (options.html) {
                         var className = 'string';
-                        if (value === false || value === true) {
+                        if (value === false || value === true || value === null) {
                             className = 'value';
                         }
                         if (typeof value === 'number') {
                             className = 'number';
                         }
-                        result += '<span class="' + className + '">"' + value + '"</span>, ';
+                        result += '<span class="' + className + '">"' + (value === null ? 'null' : value)  + '"</span>,';
                     } else {
-                        result += '' + value + ', ';
+                        if (value === false || value === true || typeof value === 'number'  || value === null) {
+                            result += '' + (value === null ? 'null' : value) + ',';
+                        }else{
+                            result += '"' + (value === null ? 'null' : value) + '",';
+                        }
                     }
                 }
             });
 
 
-            if (result.slice(-2) === ', ') {
-                result = result.slice(0, -2);
+            if (result.slice(-1) === ',') {
+                result = result.slice(0, -1);
             }
 
             if (!emptyObject) {
@@ -231,13 +259,14 @@
                         }
                     };
                 };
-                mask.Dbref = function(name, id, db) {
+                mask.DBRef = function(name, id, db) {
                     return {
-                        namespace: name,
-                        oid: id,
-                        db: db
+                        '$ref': name,
+                        '$id': id,
+                        '$db': db
                     };
                 };
+
                 mask.Binary = function(v) {
                     throw 'Cannot save documents with Binary values';
                 };
@@ -249,9 +278,6 @@
         }
     };
 }());
-
-
-
 (function () {
     'use strict';
     Handlebars.registerHelper('humanizeByte', function (bytes) {

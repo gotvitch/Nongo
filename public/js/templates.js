@@ -93,18 +93,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<!-- <a href=\"/databases/";
-  if (stack1 = helpers.databaseName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.databaseName; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "/collections/"
-    + escapeExpression(((stack1 = depth0.name),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-link=\"push\" >"
+  buffer += "<div class=\"document-title clearfix\">\n    <h3 class=\"pull-left\">\n        <span class=\"document-id\">"
     + escapeExpression(((stack1 = depth0._id),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</a> -->\n\n<div class=\"document-wrapper well\">\n    <div class=\"document\">";
+    + "</span>\n        <time class=\"document-time small\">";
+  if (stack2 = helpers.creationTime) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.creationTime; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
+    + "</time>\n    </h3>\n    <div class=\"pull-right\">\n        <button type=\"button\" class=\"btn btn-default btn-sm js-edit document-display\">Edit</button>\n        <button type=\"button\" class=\"btn btn-danger btn-sm js-delete document-display\">Delete</button>\n\n        <button type=\"button\" class=\"btn btn-default btn-sm js-save document-edit\">Save</button>\n        <button type=\"button\" class=\"btn btn-danger btn-sm js-cancel document-edit\">Cancel</button>\n    </div>\n</div>\n<div class=\"document-display document-wrapper well\">\n    <div class=\"document-content\">";
   stack2 = ((stack1 = depth0.content),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "</div>\n</div>";
+  buffer += "</div>\n</div>\n<div class=\"document-edit document-editor\">\n    <textarea></textarea>\n</div>\n";
   return buffer;
   });
 
