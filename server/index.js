@@ -51,18 +51,17 @@ Server = function () {
 
     app.get('/favicon.ico', function (req, res, next) { return res.send(404); });   // No favicon
 
-    app.param('database', middlewares.connectToDatabase);
-
+    // Databases routes
     app.get('/api/db', database.list);
     app.post('/api/db', database.create);
     app.delete('/api/db/:database', database.drop);
 
-
+    // Collections routes
     app.get('/api/db/:database/collections', collection.list);
     app.post('/api/db/:database/collections', collection.create);
     app.delete('/api/db/:database/collections/:collection', collection.drop);
 
-
+    // Documents routes
     app.get('/api/db/:database/collections/:collection/documents', document.list);
     app.post('/api/db/:database/collections/:collection/documents', document.create);
     app.put('/api/db/:database/collections/:collection/documents/:id', document.update);

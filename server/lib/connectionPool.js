@@ -16,9 +16,8 @@ ConnectionPool = function (hostname, port) {
 
 ConnectionPool.prototype.connectToDatabase = function(database){
 
-    var deferred = Q.defer();
-
-    var self = this;
+    var deferred = Q.defer(),
+        self = this;
 
     if (this.connections[database]) {
         deferred.resolve(this.connections[database]);

@@ -13,16 +13,6 @@ var Nongo             = require('./../nongo'),
  */
 module.exports = {
     
-    connectToDatabase: function(req, res, next, database){
-        
-        Nongo.connections.connectToDatabase(database)
-        .then(function(db){
-            return next();
-        })
-        .fail(function (err) {
-            next(err);
-        });
-    },
     singlePage: function(req, res, next){
         if(req.xhr){
             return next();

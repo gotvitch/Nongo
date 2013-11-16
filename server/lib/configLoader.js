@@ -6,6 +6,7 @@ var command = require('commander').Command,
 exports.load = function () {
     var config,
         configFile,
+        configFilePath,
         program = new command(),
         deferred = Q.defer();
 
@@ -32,10 +33,10 @@ exports.load = function () {
 
     if(program.config){
 
-        var filePath = path.resolve(process.cwd(), program.config);
+        configFilePath = path.resolve(process.cwd(), program.config);
 
         try {
-            configFile = require(filePath);
+            configFile = require(configFilePath);
         } catch (ignore) {
         }
 
