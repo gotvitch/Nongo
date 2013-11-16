@@ -1,14 +1,14 @@
 <div class="document-title clearfix">
     <h3 class="pull-left">
-        <span class="document-id">{{this._id}}</span>
+        <span class="document-id">{{#if is_new}}New document{{else}}{{_id}}{{/if}}</span>
         <time class="document-time small">{{creationTime}}</time>
     </h3>
     <div class="pull-right">
-        <button type="button" class="btn btn-default btn-sm js-edit document-display">Edit</button>
-        <button type="button" class="btn btn-danger btn-sm js-delete document-display">Delete</button>
-
-        <button type="button" class="btn btn-default btn-sm js-save document-edit">Save</button>
-        <button type="button" class="btn btn-danger btn-sm js-cancel document-edit">Cancel</button>
+            <button type="button" class="btn btn-default btn-sm js-edit document-display">Edit</button>
+            <button type="button" class="btn btn-danger btn-sm js-delete document-display">Delete</button>
+        
+            <button type="button" class="btn btn-default btn-sm js-cancel document-edit">Cancel</button>
+            <button type="button" class="btn btn-primary btn-sm js-save document-edit">Save</button>
     </div>
 </div>
 <div class="document-display document-wrapper well">

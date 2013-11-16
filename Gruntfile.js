@@ -179,7 +179,9 @@ module.exports = function (grunt) {
                         '<%= paths.app %>/bower_components/handlebars/handlebars.js',
                         '<%= paths.app %>/bower_components/bootstrap/dist/js/bootstrap.js',
                         '<%= paths.app %>/assets/js/jquery-caret.js',
-                        '<%= paths.app %>/bower_components/codemirror/lib/codemirror.js'
+                        '<%= paths.app %>/bower_components/codemirror/lib/codemirror.js',
+                        '<%= paths.app %>/bower_components/codemirror/mode/javascript/javascript.js',
+                        '<%= paths.app %>/bower_components/codemirror/addon/edit/matchbrackets.js'
                     ],
 
                     '<%= paths.build %>/js/models.js': [

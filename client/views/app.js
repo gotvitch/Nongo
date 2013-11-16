@@ -38,6 +38,11 @@
             var collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
             this.content.show(collectionView);
             collectionView.showDocuments();
+        },
+        showDocuments: function (databaseName, collectionName, documentId) {
+            var collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
+            this.content.show(collectionView);
+            collectionView.showDocuments(documentId);
         }
     });
 }());

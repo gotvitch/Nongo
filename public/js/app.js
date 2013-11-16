@@ -40,6 +40,7 @@
         routes: {
             'test': 'test',
             'databases/:database/collections/:collection': 'collection',
+            'databases/:database/collections/:collection/documents/:document': 'document',
             'databases/:database': 'database',
             '*actions': 'defaultRoute',
             ':notFound': 'notFound'
@@ -52,6 +53,9 @@
         },
         collection: function(database, collection){
             Nongo.appView.showCollection(database, collection);
+        },
+        document: function(database, collection, doc){
+            Nongo.appView.showDocuments(database, collection, doc);
         },
         defaultRoute: function () {
             Nongo.appView.showHome();

@@ -64,6 +64,7 @@ Server = function () {
 
 
     app.get('/api/db/:database/collections/:collection/documents', document.list);
+    app.post('/api/db/:database/collections/:collection/documents', document.create);
     app.put('/api/db/:database/collections/:collection/documents/:id', document.update);
 
     this.app = app;

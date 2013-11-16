@@ -84,25 +84,39 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add collection</button>\n</div>\n\n<ul class=\"documents\">\n\n</ul>";
+  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add collection</button>\n</div>\n<div class=\"document-new\">\n    \n</div>\n<ul class=\"documents\">\n\n</ul>";
   });
 
 this["Nongo"]["Templates"]["DocumentsItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  
+  return "New document";
+  }
 
-  buffer += "<div class=\"document-title clearfix\">\n    <h3 class=\"pull-left\">\n        <span class=\"document-id\">"
-    + escapeExpression(((stack1 = depth0._id),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</span>\n        <time class=\"document-time small\">";
-  if (stack2 = helpers.creationTime) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = depth0.creationTime; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "</time>\n    </h3>\n    <div class=\"pull-right\">\n        <button type=\"button\" class=\"btn btn-default btn-sm js-edit document-display\">Edit</button>\n        <button type=\"button\" class=\"btn btn-danger btn-sm js-delete document-display\">Delete</button>\n\n        <button type=\"button\" class=\"btn btn-default btn-sm js-save document-edit\">Save</button>\n        <button type=\"button\" class=\"btn btn-danger btn-sm js-cancel document-edit\">Cancel</button>\n    </div>\n</div>\n<div class=\"document-display document-wrapper well\">\n    <div class=\"document-content\">";
+function program3(depth0,data) {
+  
+  var stack1;
+  if (stack1 = helpers._id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0._id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  return escapeExpression(stack1);
+  }
+
+  buffer += "<div class=\"document-title clearfix\">\n    <h3 class=\"pull-left\">\n        <span class=\"document-id\">";
+  stack1 = helpers['if'].call(depth0, depth0.is_new, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</span>\n        <time class=\"document-time small\">";
+  if (stack1 = helpers.creationTime) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.creationTime; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</time>\n    </h3>\n    <div class=\"pull-right\">\n            <button type=\"button\" class=\"btn btn-default btn-sm js-edit document-display\">Edit</button>\n            <button type=\"button\" class=\"btn btn-danger btn-sm js-delete document-display\">Delete</button>\n        \n            <button type=\"button\" class=\"btn btn-default btn-sm js-cancel document-edit\">Cancel</button>\n            <button type=\"button\" class=\"btn btn-primary btn-sm js-save document-edit\">Save</button>\n    </div>\n</div>\n<div class=\"document-display document-wrapper well\">\n    <div class=\"document-content\">";
   stack2 = ((stack1 = depth0.content),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "</div>\n</div>\n<div class=\"document-edit document-editor\">\n    <textarea></textarea>\n</div>\n";
+  buffer += "</div>\n</div>\n<div class=\"document-edit document-editor\">\n    <textarea></textarea>\n</div>";
   return buffer;
   });
 

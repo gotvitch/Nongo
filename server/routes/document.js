@@ -31,7 +31,11 @@ module.exports = {
                 var queryJson = {};
 
                 if(!_.isEmpty(query)){
-                    queryJson = JSON.parse(query);
+                    try{
+                        queryJson = bsonParser.toBSON(JSON.parse(query));
+                    }catch(e){
+                        throw new Nongo.Error.ValidationError('query', 'The query contains invalid BSON.');
+                    }
                 }
 
                 if(!_.isEmpty(fields)){
@@ -48,6 +52,32 @@ module.exports = {
             })
             .then(function (documents) {
                 res.json(bsonParser.formatBSON(documents));
+            })
+            .fail(function (err) {
+                next(err);
+            })
+            .done();
+    },
+    create: function(req, res, next){
+        var databaseName = req.params.database,
+            collectionName = req.params.collection,
+            documentBson;
+
+        try{
+            documentBson = bsonParser.toBSON(req.body);
+        }catch(e){
+            throw new Nongo.Error.ValidationError('document', 'This document contains invalid BSON.');
+        }
+
+        Nongo.connections
+            .connectToDatabase(databaseName)
+            .then(function (db) {
+                var collection = db.collection(collectionName);
+
+                return Q.ninvoke(collection, 'insert', documentBson);
+            })
+            .then(function (documents) {
+                res.json(bsonParser.formatBSON(documents[0]));
             })
             .fail(function (err) {
                 next(err);
@@ -83,8 +113,6 @@ module.exports = {
                 next(err);
             })
             .done();
-
-
     }
 };
 

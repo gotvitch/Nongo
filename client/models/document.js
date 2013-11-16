@@ -11,8 +11,10 @@
             if (!options) {
                 options = {};
             }
-            this.databaseName = options.collection.databaseName;
-            this.collectionName = options.collection.collectionName;
+            this.databaseName = options.databaseName || options.collection.databaseName;
+            this.collectionName = options.collectionName || options.collection.collectionName;
+            // this.databaseName = options.collection.databaseName;
+            // this.collectionName = options.collection.collectionName;
         },
         parse: function(resp) {
 
