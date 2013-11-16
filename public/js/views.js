@@ -221,15 +221,14 @@
 
                 var documentEditor = this.$el.find('.document-editor');
 
-
-                var $textarea = $('<textarea></textarea>')
+                var $textarea = $('<textarea></textarea>');
 
                 var height;
                 if(this.model.isNew()){
                     height = 350;
                     $textarea.text(Nongo.Tool.BSON.toBsonString(modelJSON, {html: false}));
                 }else{
-                    height = Math.max(180, Math.min(600, $documentWrapper.height() + 40))
+                    height = Math.max(180, Math.min(600, documentWrapperHeight + 40));
                     $textarea.text(Nongo.Tool.BSON.toBsonString(modelJSON, {html: false}));
                 }
 
@@ -248,10 +247,9 @@
                 this.editor.setSize(null, height);
 
                 if(this.model.isNew()){
-                    this.editor.setValue("{\n    \n}\n");
+                    this.editor.setValue('{\n    \n}\n');
                     this.editor.setCursor({line: 1, ch: 4});
                 }
-
 
             }else{
                 this.$el.find('.document-edit').hide();
@@ -267,17 +265,13 @@
             if(this.model.isNew()){
                 this.$el.slideUp(200, function(){
                     self.remove();
-                })
+                });
                 
             }else{
-                //this.$('.document-edit').hide();
-                //this.$('.document-display').show();
-
                 this.editor.toTextArea();
-                //this.$('.document-editor').html('');
                 this.mode = 'display';
                 this.render();
-            }   
+            }
         },
         save: function(){
             var self = this;
@@ -290,7 +284,6 @@
                 success: function(model, response, options){
                     self.endEdit();
                     self.render();
-                    debugger;
                     Nongo.app.navigate('/databases/' + model.databaseName + '/collections/' + model.collectionName + '/documents/' + model.id, { trigger: true });
                 },
                 error: function(model, xhr, options) {
@@ -335,7 +328,7 @@
             this.$el.prepend(this.shellForm.$el);
 
             if(this.documentId){
-                this.showDocument(this.documentId)
+                this.showDocument(this.documentId);
                 this.documentId = null;
             }else{
                 this.runQuery();
@@ -348,11 +341,11 @@
         add: function(){
             var addDocumentView = new Nongo.Views.DocumentsItem({ model: new Nongo.Models.Document({}, { collection: this.collection }) } );
             
-            this.$('.document-new').prepend(addDocumentView.el)
+            this.$('.document-new').prepend(addDocumentView.el);
             addDocumentView.render();
             addDocumentView.edit();
 
-            this.$('.document-new').hide()
+            this.$('.document-new').hide();
 
             this.$('.document-new').slideDown(200);
         },
@@ -362,7 +355,7 @@
             var queryData = data.query.data();
 
 
-            var objectIdRegex = new RegExp("^[0-9a-fA-F]{24}$");
+            var objectIdRegex = new RegExp('^[0-9a-fA-F]{24}$');
 
             if(queryData.length == 26 && objectIdRegex.test(queryData.substring(1, 25))){
                 queryData = '{ _id: ObjectId("' + queryData.substring(1, 25) + '") }';
@@ -444,7 +437,7 @@
             this.fields = {};
             this.config = Nongo.ShellFormConfig[this.options.config];
             this.customBefore = this.options.customBefore;
-            this.clipboard = $("<textarea class='clipboard'>").attr('style', 'opacity: 0; position: absolute;');
+            this.clipboard = $('<textarea class="clipboard">').attr('style', 'opacity: 0; position: absolute;');
 
             return this;
         },
@@ -628,25 +621,7 @@
                 el.focus().caret(text.length - end);
                 return self.clipboard.val('');
 
-            }, 30)
-
-
-
-
-            // var caret, el, end, text,
-            // _this = this;
-            // el = $(e.target);
-            // caret = el.caret();
-            // text = el.text();
-            // end = text.length - caret.start - caret.length;
-            // this.clipboard.val(text);
-            // this.clipboard.focus().caret(caret);
-            // return _.delay(function() {
-            //     text = _this.clipboard.val();
-            //     el.text(text);
-            //     el.focus().caret(text.length - end);
-            //     return _this.clipboard.val('');
-            // }, 50);
+            }, 30);
         },
         focusField: function(e) {
             var el, field;

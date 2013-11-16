@@ -17,7 +17,7 @@
             this.fields = {};
             this.config = Nongo.ShellFormConfig[this.options.config];
             this.customBefore = this.options.customBefore;
-            this.clipboard = $("<textarea class='clipboard'>").attr('style', 'opacity: 0; position: absolute;');
+            this.clipboard = $('<textarea class="clipboard">').attr('style', 'opacity: 0; position: absolute;');
 
             return this;
         },
@@ -201,25 +201,7 @@
                 el.focus().caret(text.length - end);
                 return self.clipboard.val('');
 
-            }, 30)
-
-
-
-
-            // var caret, el, end, text,
-            // _this = this;
-            // el = $(e.target);
-            // caret = el.caret();
-            // text = el.text();
-            // end = text.length - caret.start - caret.length;
-            // this.clipboard.val(text);
-            // this.clipboard.focus().caret(caret);
-            // return _.delay(function() {
-            //     text = _this.clipboard.val();
-            //     el.text(text);
-            //     el.focus().caret(text.length - end);
-            //     return _this.clipboard.val('');
-            // }, 50);
+            }, 30);
         },
         focusField: function(e) {
             var el, field;
