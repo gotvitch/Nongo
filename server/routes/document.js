@@ -61,13 +61,7 @@ module.exports = {
     create: function(req, res, next){
         var databaseName = req.params.database,
             collectionName = req.params.collection,
-            documentBson;
-
-        try{
             documentBson = bsonParser.toBSON(req.body);
-        }catch(e){
-            throw new Nongo.Error.ValidationError('document', 'This document contains invalid BSON.');
-        }
 
         Nongo.connections
             .connectToDatabase(databaseName)
@@ -88,13 +82,7 @@ module.exports = {
         var databaseName = req.params.database,
             collectionName = req.params.collection,
             documentId = mongodb.ObjectID(req.params.id),
-            documentBson;
-
-        try{
             documentBson = bsonParser.toBSON(req.body);
-        }catch(e){
-            throw new Nongo.Error.ValidationError('document', 'This document contains invalid BSON.');
-        }
 
         Nongo.connections
             .connectToDatabase(databaseName)
