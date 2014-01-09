@@ -26,13 +26,13 @@ describe('Config', function () {
             process.argv = [
                 'node',
                 'file.js',
-                '--hostname',
-                'hostnamecmd',
+                '--host',
+                'hostcmd',
                 '--port',
                 '12345',
-                '--whostname',
-                'whostnamecmd',
-                '--wport',
+                '--webhost',
+                'webhostcmd',
+                '--webport',
                 '54321'
             ];
         });
@@ -40,15 +40,15 @@ describe('Config', function () {
         it('should load values', function(done) {
             configLoader.load().then(function (config) {
                 config.should.have.property('db');
-                config.db.should.have.property('hostname', 'hostnamecmd');
+                config.db.should.have.property('hostname', 'hostcmd');
                 config.db.should.have.property('port', 12345);
 
                 config.should.have.property('server');
-                config.server.should.have.property('hostname', 'whostnamecmd');
+                config.server.should.have.property('hostname', 'webhostcmd');
                 config.server.should.have.property('port', 54321);
 
                 done();
-            }, done);
+            }).fail(done);
         });
 
         after(function() {

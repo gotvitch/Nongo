@@ -9,6 +9,10 @@
         },
         initialize: function () {
             //return this.render();
+            this.breabcrumbView = new Nongo.Views.Breadcrumb();
+        },
+        updateBreadCrumb: function(data){
+
         },
         showHome: function(){
             var self = this,
@@ -19,6 +23,8 @@
                     self.content.show(new Nongo.Views.Home({
                         collection: databases
                     }));
+
+                    self.breabcrumbView.update({});
                 }
             });
         },
@@ -29,20 +35,57 @@
         },
         showDatabase: function(databaseName){
             var databaseView = new Nongo.Views.Database({ databaseName: databaseName });
-            
             this.content.show(databaseView);
-
             databaseView.showCollections();
+
+            this.breabcrumbView.update({ database: databaseName });
         },
         showCollection: function (databaseName, collectionName) {
             var collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
             this.content.show(collectionView);
             collectionView.showDocuments();
+
+            this.breabcrumbView.update({ database: databaseName, collection: collectionName });
         },
         showDocuments: function (databaseName, collectionName, documentId) {
             var collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
             this.content.show(collectionView);
             collectionView.showDocuments(documentId);
+
+            this.breabcrumbView.update({ database: databaseName, collection: collectionName });
+        }
+    });
+}());
+(function () {
+    'use strict';
+
+
+    Nongo.Views.Breadcrumb = Backbone.View.extend({
+        template: Nongo.Templates.Breadcrumb,
+        el: '#breadcrumb',
+        initialize: function () {
+            
+        },
+        update: function(data){
+
+            var dataTemplate = [];
+
+            if(data.database != null){
+                dataTemplate.push({
+                    value: data.database,
+                    url: '/databases/' + data.database
+                });
+
+                if(data.collection != null){
+                    dataTemplate.push({
+                        value: data.collection,
+                        url: '/databases/' + data.database + '/collections/' + data.collection
+                    });
+                }
+            }
+
+
+            this.$el.html(this.template(dataTemplate));
         }
     });
 }());
@@ -120,7 +163,7 @@
 
             this.shellForm.render();
 
-            this.$el.prepend(this.shellForm.$el.hide());
+            this.$('.shell-form-wrapper').html(this.shellForm.$el.hide());
 
             this.shellForm.$el.slideDown(200);
         },
@@ -130,17 +173,17 @@
                 size = parseInt(data.size, null),
                 max = parseInt(data.max, null);
 
-            var collection = new Nongo.Models.Collection({ name: data.name }, { databaseName: this.databaseName });
+            var newCollection = new Nongo.Models.Collection({ name: data.name }, { databaseName: this.databaseName });
 
             if(size){
-                collection.set('size', size);
+                newCollection.set('size', size);
             }
 
             if(size && max){
-                collection.set('max', max);
+                newCollection.set('max', max);
             }
 
-            collection.save({}, {
+            newCollection.save({}, {
                 success: function(model, response, options){
                     Nongo.app.navigate('/databases/' + self.databaseName + '/collections/' + data.name, { trigger: true });
                 },
@@ -407,13 +450,53 @@
         itemViewContainer: 'tbody',
 
         events: {
-            'click .js-refresh': 'refresh'
+            'click .js-refresh': 'refresh',
+            'click .js-add': 'showAddDatabase'
         },
         initialize: function(options){
 
         },
         refresh: function(e){
             this.collection.fetch();
+        },
+        showAddDatabase: function(){
+            this.shellForm = new Nongo.Views.ShellForm({
+                cancel: true,
+                config: 'use'
+            });
+
+            this.listenTo(this.shellForm, 'submit', this.addDatabase, this);
+            this.listenTo(this.shellForm, 'cancel', this.closeShellForm, this);
+
+            this.shellForm.render();
+
+            this.$('.shell-form-wrapper').html(this.shellForm.$el.hide());
+
+            this.shellForm.$el.slideDown(200);
+        },
+        addDatabase: function(data){
+
+            var self = this;
+
+            var newDatabase = new Nongo.Models.Database();
+
+            newDatabase.save(null, {
+                attrs: { name: data.name },
+                success: function(model, response, options){
+                    Nongo.app.navigate('/databases/' + data.name, { trigger: true });
+                },
+                error: function(model, xhr, options){
+                    throw new Error('Collection not save');
+                }
+            });
+
+
+        },
+        closeShellForm: function(){
+            var self = this;
+            this.shellForm.$el.slideUp(200, function(){
+                self.shellForm.remove();
+            });
         }
     });
 }());
@@ -445,7 +528,10 @@
             this.$params = $('<div class="params">');
             this.$buttons = $('<div class="buttons clearfix">');
 
-            this.$params.append('<span>' + this.customBefore + '</span>');
+            if(this.customBefore){
+                this.$params.append('<span>' + this.customBefore + '</span>');    
+            }
+            
             this.fields = {};
             _.each(this.config.fields, function(field) {
                 this.addFields(new Field(field));
@@ -653,8 +739,11 @@
         caretToEnd: function(event) {
             return $(event.target).caret($(event.target).text().length);
         },
+        getValues: function(){
+            return _.object(_.map(this.fields, function(f){ return [f.name, f.data()]; }));
+        },
         submit: function(e){
-            this.trigger('submit', this.fields);
+            this.trigger('submit', this.getValues());
         },
         cancel: function(e){
             this.trigger('cancel');
@@ -798,6 +887,19 @@
     });
 
     Nongo.ShellFormConfig = {
+        'use': {
+            fields: [
+                {
+                    name: 'name',
+                    before: 'use ',
+                    after: ''
+                }
+            ],
+            submit: {
+                value: 'Create database',
+                'class': 'run'
+            }
+        },
         'db.copyDatabase': {
             fields: [
                 {

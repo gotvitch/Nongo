@@ -1,10 +1,10 @@
 (function () {
     'use strict';
 
-
     Nongo.Models.Database = Backbone.Model.extend({
+        idAttribute: 'name',
         url: function () {
-            return '/api/db/' + this.get('name');
+            return '/api/db';
         },
         initialize: function (options) {
         }

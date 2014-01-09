@@ -11,6 +11,12 @@ body {
 #database-content {
   padding: 15px 0;
 }
+/*#breadcrumb li+li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/\00a0";
+}
+*/
 .document-editor {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -51,13 +57,12 @@ body {
 .shell-form {
   color: #555;
   position: relative;
-  margin-bottom: 15px;
+  margin: 10px 0;
   border: 1px solid #ccc;
 }
 .shell-form span {
   position: relative;
 }
-/* line 25, ../../app/assets/stylesheets/partials/_mongoshell.scss */
 .shell-form .params {
   font-family: "Liberation Mono", "Ubuntu Mono", monaco, "Lucida Console", "Consolas", monospace;
   background: #322012;

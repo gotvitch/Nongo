@@ -1,6 +1,6 @@
 var Nongo = require('../nongo'),
     Q     = require('q'),
-    _     = require('underscore');
+    _     = require('lodash');
 
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 
             })
             .then(function (databases){
-                res.json(databases);
+                res.json(_.sortBy(databases, 'db'));
             })
             .fail(function (err) {
                 next(err);
@@ -32,10 +32,10 @@ module.exports = {
     },
     create: function(req, res, next){
 
-        var databaseName = req.body.database,
+        var databaseName = req.body.name,
             errors;
 
-        req.checkBody('database', 'database is required').notEmpty();
+        req.checkBody('name', 'database name is required').notEmpty();
 
         errors = req.validationErrors();
 
@@ -52,7 +52,7 @@ module.exports = {
                 .then(function(dbs){
 
                     if(_.any(dbs.databases, function (db) { return db.name === databaseName; })){
-                        throw new Nongo.Error.ValidationError('database', 'database already exists');
+                        throw new Nongo.Error.ValidationError('name', 'database already exists');
                     }
 
                     return db;
@@ -61,8 +61,8 @@ module.exports = {
             .then(function (db) {
                 return Q.ninvoke(db, 'stats');
             })
-            .then(function () {
-                res.send(200);
+            .then(function (stats) {
+                res.json({ name: databaseName });
             })
             .fail(function (err) {
                 next(err);

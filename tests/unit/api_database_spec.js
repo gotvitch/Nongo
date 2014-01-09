@@ -1,7 +1,7 @@
 var Nongo        = require('../../server/nongo'),
     request      = require('superagent'),
     should       = require('should'),
-    _            = require('underscore'),
+    _            = require('lodash'),
     mongoHelper  = require('./helpers/mongoHelper'),
     nongoHelper  = require('./helpers/nongoHelper');
 
@@ -82,7 +82,7 @@ describe('API database', function () {
             request
             .post(Nongo.apiUrl + 'db')
             .set('Accept', 'application/json')
-            .send({ database: mongoHelper.testDatabaseName })
+            .send({ name: mongoHelper.testDatabaseName })
             .end(function(res){
                 if (res.error) {
                     done(res.error);
@@ -110,8 +110,8 @@ describe('API database', function () {
                 res.status.should.eql(422);
 
                 res.body.should.be.instanceof(Array).and.have.lengthOf(1);
-                res.body[0].should.have.property('param').and.equal('database');
-                res.body[0].should.have.property('message').and.equal('database is required');
+                res.body[0].should.have.property('param').and.equal('name');
+                res.body[0].should.have.property('message').and.equal('database name is required');
 
                 done();
 
@@ -123,12 +123,12 @@ describe('API database', function () {
             request
             .post(Nongo.apiUrl + 'db')
             .set('Accept', 'application/json')
-            .send({ database: mongoHelper.testDatabaseName })
+            .send({ name: mongoHelper.testDatabaseName })
             .end(function(res){
                 res.status.should.eql(422);
 
                 res.body.should.be.instanceof(Array).and.have.lengthOf(1);
-                res.body[0].should.have.property('param').and.equal('database');
+                res.body[0].should.have.property('param').and.equal('name');
                 res.body[0].should.have.property('message').and.equal('database already exists');
 
                 done();

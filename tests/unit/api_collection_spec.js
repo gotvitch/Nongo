@@ -1,7 +1,7 @@
 var Nongo        = require('../../server/nongo'),
     request      = require('superagent'),
     should       = require('should'),
-    _            = require('underscore'),
+    _            = require('lodash'),
     Q            = require('q'),
     mongoHelper  = require('./helpers/mongoHelper'),
     nongoHelper  = require('./helpers/nongoHelper');

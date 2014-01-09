@@ -11,7 +11,7 @@
 
     _.extend(Nongo, Backbone.Events);
 
-    _.extend(Backbone.Model.prototype, Backbone.Validation.mixin);
+   // _.extend(Backbone.Model.prototype, Backbone.Validation.mixin);
 
     window.Nongo = Nongo;
 

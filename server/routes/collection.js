@@ -1,6 +1,6 @@
 var Nongo = require('../nongo'),
     Q     = require('q'),
-    _     = require('underscore'),
+    _     = require('lodash'),
     SYSTEM_COLLECTIONS;
 
 
@@ -31,21 +31,27 @@ module.exports = {
             })
             .then(function (collections) {
 
-                res.send(_.filter(collections, function(collection){
-                    return !_.any(SYSTEM_COLLECTIONS, function(systemCollection){
-                        return ((databaseName + systemCollection) === collection.ns);
-                    });
-                }).map(function(collection){
-                    return {
-                        name: collection.ns.substring(databaseName.length + 1),
-                        count: collection.count,
-                        size: collection.size,
-                        storageSize: collection.storageSize,
-                        nindexes: collection.nindexes,
-                        totalIndexSize: collection.totalIndexSize,
-                        indexSizes: collection.indexSizes
-                    };
-                }));
+                res.send(
+                    _.chain(collections)
+                    .filter(function(collection){
+                        return !_.any(SYSTEM_COLLECTIONS, function(systemCollection){
+                            return ((databaseName + systemCollection) === collection.ns);
+                        });
+                    })
+                    .map(function(collection){
+                        return {
+                            name: collection.ns.substring(databaseName.length + 1),
+                            count: collection.count,
+                            size: collection.size,
+                            storageSize: collection.storageSize,
+                            nindexes: collection.nindexes,
+                            totalIndexSize: collection.totalIndexSize,
+                            indexSizes: collection.indexSizes
+                        };
+                    })
+                    .sortBy('name')
+                    .value()
+                );
             })
             .fail(function (err) {
                 next(err);

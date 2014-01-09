@@ -1,13 +1,40 @@
 this["Nongo"] = this["Nongo"] || {};
 this["Nongo"]["Templates"] = this["Nongo"]["Templates"] || {};
 
+this["Nongo"]["Templates"]["Breadcrumb"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n          <li><a href=\"";
+  if (stack1 = helpers.url) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.url; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\" data-link=\"push\">";
+  if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</a></li>\n        ";
+  return buffer;
+  }
+
+  buffer += "\n<div class=\"collapse navbar-collapse\">\n    <ul class=\"nav navbar-nav navbar-right\">\n        ";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </ul>\n</div>";
+  return buffer;
+  });
+
 this["Nongo"]["Templates"]["Collection"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<ul class=\"nav nav-tabs\">\n  <li class=\"active\"><a href=\"#\">Documents</a></li>\n  <li><a href=\"#\">Indexes</a></li>\n</ul>\n\n<div id=\"collection-content\">\n\n</div>";
+  return "<div id=\"collection-content\">\n\n</div>";
   });
 
 this["Nongo"]["Templates"]["Collections"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -16,7 +43,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add document</button>\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Documents</th>\n      <th>Size</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Create collection</button>\n</div>\n\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Documents</th>\n      <th>Size</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
   });
 
 this["Nongo"]["Templates"]["CollectionsItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -49,7 +76,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<ul class=\"nav nav-tabs\">\n  <li class=\"active\"><a href=\"#\">Collections</a></li>\n  <li><a href=\"#\">Users</a></li>\n</ul>\n\n<div id=\"database-content\">\n\n</div>";
+  return "<div id=\"database-content\">\n\n</div>";
   });
 
 this["Nongo"]["Templates"]["DatabaseItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -126,5 +153,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default\">Add database</button>\n</div>\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Data Size</th>\n      <th>File Size</th>\n      <th>Collections</th>\n      <th>Objects</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Create database</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Data Size</th>\n      <th>File Size</th>\n      <th>Collections</th>\n      <th>Objects</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
   });

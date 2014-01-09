@@ -7,7 +7,7 @@ var express     = require('express'),
     Nongo       = require('./nongo'),
     database    = require('./routes/database'),
     collection  = require('./routes/collection'),
-    document  = require('./routes/document'),
+    document    = require('./routes/document'),
     Q           = require('q'),
     path        = require('path'),
     Server;
@@ -34,22 +34,12 @@ Server = function () {
     app.use(middlewares.singlePage);
     app.use(app.router); // Map routes
 
-    // return the correct mime type for woff filess
-    //express['static'].mime.define({'application/font-woff': ['woff']});
-
-
-    // express.static.mime.define({'application/x-font-woff': ['woff']});
-    // express.static.mime.define({'application/x-font-ttf': ['ttf']});
-    // express.static.mime.define({'application/vnd.ms-fontobject': ['eot']});
-    // express.static.mime.define({'font/opentype': ['otf']});
-
-
     app.use(express.static(path.join(__dirname, '/../public')));
 
     app.use(middlewares.errorHandling);
     app.use(express.errorHandler());
 
-    app.get('/favicon.ico', function (req, res, next) { return res.send(404); });   // No favicon
+    app.get('/favicon.ico', function (req, res, next) { return res.send(404); });   // No favicon yet
 
     // Databases routes
     app.get('/api/db', database.list);

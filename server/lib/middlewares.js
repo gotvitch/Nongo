@@ -4,13 +4,10 @@
  */
 
 var Nongo             = require('./../nongo'),
-    _                 = require('underscore'),
+    _                 = require('lodash'),
     expressValidator  = require('express-validator');
 
-/**
- * Ensure we have a connection to the database, so that Mongo Edit doesn't crash
- * Useful when mongodb was restarted and the connection was cut
- */
+
 module.exports = {
     
     singlePage: function(req, res, next){

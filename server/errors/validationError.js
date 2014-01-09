@@ -1,5 +1,5 @@
 var NongoError = require('./nongoError'),
-    _          = require('underscore');
+    _          = require('lodash');
 
 /*!
  * ValidationError Error constructor.

@@ -53,7 +53,7 @@
 
             this.shellForm.render();
 
-            this.$el.prepend(this.shellForm.$el.hide());
+            this.$('.shell-form-wrapper').html(this.shellForm.$el.hide());
 
             this.shellForm.$el.slideDown(200);
         },
@@ -63,17 +63,17 @@
                 size = parseInt(data.size, null),
                 max = parseInt(data.max, null);
 
-            var collection = new Nongo.Models.Collection({ name: data.name }, { databaseName: this.databaseName });
+            var newCollection = new Nongo.Models.Collection({ name: data.name }, { databaseName: this.databaseName });
 
             if(size){
-                collection.set('size', size);
+                newCollection.set('size', size);
             }
 
             if(size && max){
-                collection.set('max', max);
+                newCollection.set('max', max);
             }
 
-            collection.save({}, {
+            newCollection.save({}, {
                 success: function(model, response, options){
                     Nongo.app.navigate('/databases/' + self.databaseName + '/collections/' + data.name, { trigger: true });
                 },

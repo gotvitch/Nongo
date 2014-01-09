@@ -25,7 +25,10 @@
             this.$params = $('<div class="params">');
             this.$buttons = $('<div class="buttons clearfix">');
 
-            this.$params.append('<span>' + this.customBefore + '</span>');
+            if(this.customBefore){
+                this.$params.append('<span>' + this.customBefore + '</span>');
+            }
+            
             this.fields = {};
             _.each(this.config.fields, function(field) {
                 this.addFields(new Field(field));
@@ -233,8 +236,11 @@
         caretToEnd: function(event) {
             return $(event.target).caret($(event.target).text().length);
         },
+        getValues: function(){
+            return _.object(_.map(this.fields, function(f){ return [f.name, f.data()]; }));
+        },
         submit: function(e){
-            this.trigger('submit', this.fields);
+            this.trigger('submit', this.getValues());
         },
         cancel: function(e){
             this.trigger('cancel');
@@ -378,6 +384,19 @@
     });
 
     Nongo.ShellFormConfig = {
+        'use': {
+            fields: [
+                {
+                    name: 'name',
+                    before: 'use ',
+                    after: ''
+                }
+            ],
+            submit: {
+                value: 'Create database',
+                'class': 'run'
+            }
+        },
         'db.copyDatabase': {
             fields: [
                 {

@@ -1,6 +1,6 @@
 var Nongo = require('../nongo'),
     Q     = require('q'),
-    _     = require('underscore'),
+    _     = require('lodash'),
     mongodb     = require('mongodb'),
     bsonParser = require('../lib/bsonParser');
 

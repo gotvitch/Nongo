@@ -1,5 +1,5 @@
 var mongodb = require('mongodb'),
-    _       = require('underscore');
+    _       = require('lodash');
 
 var formatBSON = function(object){
     if(object instanceof mongodb.ObjectID)
