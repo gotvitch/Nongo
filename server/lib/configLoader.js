@@ -12,8 +12,8 @@ exports.load = function () {
 
     program
         .version('0.0.1')
-        .option('--host [hostname]', 'Server to connect to')
-        .option('--port [port]', 'Port to connect to', parseInt)
+        .option('--host [hostname]', 'MongoDB host')
+        .option('--port [port]', 'Mongo DB port', parseInt)
         .option('--config [file]', 'Config file path')
         .option('--webhost [hostname]', 'Hostname for the website')
         .option('--webport [port]', 'Port for the website', parseInt)
@@ -27,7 +27,7 @@ exports.load = function () {
         },
         server: {
             hostname: 'localhost',
-            port: 8081
+            port: 8080
         }
     };
 

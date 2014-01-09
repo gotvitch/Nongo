@@ -14,7 +14,7 @@ describe('Config', function () {
 
                 config.should.have.property('server');
                 config.server.should.have.property('hostname', 'localhost');
-                config.server.should.have.property('port', 8081);
+                config.server.should.have.property('port', 8080);
 
                 done();
             }).fail(done);

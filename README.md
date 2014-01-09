@@ -1,8 +1,72 @@
 # [Nongo](https://github.com/Gotvitch/Nongo) [![Build Status](https://travis-ci.org/Gotvitch/Nongo.png?branch=master)](https://travis-ci.org/Gotvitch/Nongo) [![Coverage Status](https://coveralls.io/repos/Gotvitch/Nongo/badge.png?branch=master)](https://coveralls.io/r/Gotvitch/Nongo?branch=master) [![Dependency Status](https://gemnasium.com/Gotvitch/Nongo.png)](https://gemnasium.com/Gotvitch/Nongo)
 
 
+## Features
+
+Current features:
+
+* List/Create/Delete databases
+* List/Create/Delete collections
+* Run query on a collection (Find, Sort, Skip, Limit)
+* Create/Edit/Delete documents
+
+Next features:
+
+* Indexes management
+* User management
+* UI improvement
+
 
 ## Getting Started
+
+
+### Install
+
+* With [npm](http://github.com/isaacs/npm)
+
+        $ npm install -g nongo
+
+### Configure
+
+
+```
+ $ nongo --help
+
+  Usage: nongo [options]
+
+  Options:
+
+    -h, --help            output usage information
+    -V, --version         output the version number
+    --host [hostname]     MongoDB host
+    --port [port]         Mongo DB port
+    --config [file]       Config file path
+    --webhost [hostname]  Hostname for the website
+    --webport [port]      Port for the website
+
+```
+
+Or by configuration file
+
+```
+$ nongo --config config.js
+```
+
+```js
+module.exports = {
+    db: {
+        hostname: 'locahost',
+        port: 27017
+    },
+    server: {
+        hostname: 'localhost',
+        port: 8080
+    }
+};
+```
+
+## Screenshot
+![Screenshot](http://gotvitch.github.io/Nongo/images/screenshot.png)
 
 
 
