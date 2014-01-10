@@ -19,8 +19,7 @@ describe('API documents', function () {
         })
         .then(mongoHelper.dropTestDatabase)
         .then(function(){
-            return Nongo.connections
-            .connectToDatabase(mongoHelper.testDatabaseName)
+            return Nongo.mongo.db(mongoHelper.testDatabaseName)
             .then(function (db) {
                 return Q.ninvoke(db, 'createCollection', testCollectionName);
             });
@@ -49,8 +48,7 @@ describe('API documents', function () {
     describe('List documents', function () {
 
         before (function (done) {
-            return Nongo.connections
-            .connectToDatabase(mongoHelper.testDatabaseName)
+            return Nongo.mongo.db(mongoHelper.testDatabaseName)
             .then(function (db) {
 
                 var collection = db.collection(testCollectionName);
@@ -83,8 +81,7 @@ describe('API documents', function () {
         });
 
         after (function (done) {
-            return Nongo.connections
-            .connectToDatabase(mongoHelper.testDatabaseName)
+            return Nongo.mongo.db(mongoHelper.testDatabaseName)
             .then(function (db) {
                 
                 var collection = db.collection(testCollectionName);
@@ -183,8 +180,7 @@ describe('API documents', function () {
         var documentToUpdate;
 
         before (function (done) {
-            return Nongo.connections
-            .connectToDatabase(mongoHelper.testDatabaseName)
+            return Nongo.mongo.db(mongoHelper.testDatabaseName)
             .then(function (db) {
 
                 var collection = db.collection(testCollectionName);
@@ -199,8 +195,7 @@ describe('API documents', function () {
         });
 
         after (function (done) {
-            return Nongo.connections
-            .connectToDatabase(mongoHelper.testDatabaseName)
+            return Nongo.mongo.db(mongoHelper.testDatabaseName)
             .then(function (db) {
                 
                 var collection = db.collection(testCollectionName);
@@ -243,8 +238,7 @@ describe('API documents', function () {
     describe('Create documents', function () {
 
         after (function (done) {
-            return Nongo.connections
-            .connectToDatabase(mongoHelper.testDatabaseName)
+            return Nongo.mongo.db(mongoHelper.testDatabaseName)
             .then(function (db) {
                 
                 var collection = db.collection(testCollectionName);

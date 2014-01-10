@@ -17,8 +17,7 @@ module.exports = {
             limit = req.query.limit;
 
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo.db(databaseName)
             .then(function (db) {
 
                 var collection = db.collection(collectionName);
@@ -63,8 +62,7 @@ module.exports = {
             collectionName = req.params.collection,
             documentBson = bsonParser.toBSON(req.body);
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo.db(databaseName)
             .then(function (db) {
                 var collection = db.collection(collectionName);
 
@@ -84,8 +82,7 @@ module.exports = {
             documentId = mongodb.ObjectID(req.params.id),
             documentBson = bsonParser.toBSON(req.body);
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo.db(databaseName)
             .then(function (db) {
                 var collection = db.collection(collectionName);
 

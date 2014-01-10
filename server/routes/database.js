@@ -5,17 +5,13 @@ var Nongo = require('../nongo'),
 
 module.exports = {
     list: function(req, res, next){
-        Nongo.connections
-            .connectToDatabase('local')
-            .then(function (db) {
-                var adminDb = db.admin();
-                //return Q.ninvoke(adminDb, 'listDatabases');
-
+        Nongo.mongo.adminDb()
+            .then(function (adminDb) {
+                
                 return Q.ninvoke(adminDb, 'listDatabases')
                 .then(function (dbs) {
                     return Q.all(dbs.databases.map(function(database){
-                        return Nongo.connections
-                        .connectToDatabase(database.name)
+                        return Nongo.mongo.db(database.name)
                         .then(function(db){
                             return Q.ninvoke(db, 'stats');
                         });
@@ -43,10 +39,9 @@ module.exports = {
             throw new Nongo.Error.ValidationError(errors);
         }
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo.db(databaseName)
             .then(function (db) {
-                var adminDb = db.admin();
+                var adminDb = Nongo.mongo.adminDb();
 
                 return Q.ninvoke(adminDb, 'listDatabases')
                 .then(function(dbs){
@@ -82,8 +77,7 @@ module.exports = {
             throw new Nongo.Error.ValidationError(errors);
         }
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo.db(databaseName)
             .then(function (db) {
                 return Q.ninvoke(db, 'dropDatabase');
             })

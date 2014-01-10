@@ -1,5 +1,5 @@
 // Module dependencies
-var ConnectionPool = require('./lib/connectionPool'),
+var Mongo          = require('./lib/mongo'),
     NongoError     = require('./errors/nongoError'),
     url            = require('url'),
     Nongo;
@@ -14,7 +14,6 @@ Nongo = function () {
 // Initialise the application
 Nongo.prototype.init = function (config) {
     this.config = config;
-    this.connections = new ConnectionPool(config.db.hostname, config.db.port);
     this.NODE_ENV = process.env.NODE_ENV;
     this.apiUrl = url.format({
         protocol: 'http',
@@ -23,7 +22,9 @@ Nongo.prototype.init = function (config) {
         pathname: '/api/'
     });
 
-    return this.connections.connectToDatabase('local');
+    this.mongo = new Mongo(this.config.db);
+
+    return this.mongo.connect();
 };
 
 

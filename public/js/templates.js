@@ -111,7 +111,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add collection</button>\n</div>\n<div class=\"document-new\">\n    \n</div>\n<ul class=\"documents\">\n\n</ul>";
+  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add document</button>\n</div>\n<div class=\"document-new\">\n    \n</div>\n<ul class=\"documents\">\n\n</ul>";
   });
 
 this["Nongo"]["Templates"]["DocumentsItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

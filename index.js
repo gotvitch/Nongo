@@ -25,5 +25,6 @@ configLoader.load()
         console.log('Nongo listening on port ' + Nongo.config.server.port);
     })
     .fail(function (err) {
-        console.log(err);
+        console.log(err.stack || err);
+        process.exit(0);
     });

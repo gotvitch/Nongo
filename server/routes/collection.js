@@ -19,8 +19,8 @@ module.exports = {
 
         var databaseName = req.params.database;
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo
+            .db(databaseName)
             .then(function (db) {
                 return Q.ninvoke(db, 'collections')
                 .then(function (collections) {
@@ -82,8 +82,8 @@ module.exports = {
             throw new Nongo.Error.ValidationError(errors);
         }
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo
+            .db(databaseName)
             .then(function (db) {
 
                 var options = {};
@@ -126,8 +126,8 @@ module.exports = {
         var databaseName = req.params.database,
             collectionName = req.params.collection;
 
-        Nongo.connections
-            .connectToDatabase(databaseName)
+        Nongo.mongo
+            .db(databaseName)
             .then(function (db) {
                 return Q.ninvoke(db, 'dropCollection', collectionName);
             })

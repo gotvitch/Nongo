@@ -476,8 +476,6 @@
         },
         addDatabase: function(data){
 
-            var self = this;
-
             var newDatabase = new Nongo.Models.Database();
 
             newDatabase.save(null, {
@@ -529,7 +527,7 @@
             this.$buttons = $('<div class="buttons clearfix">');
 
             if(this.customBefore){
-                this.$params.append('<span>' + this.customBefore + '</span>');    
+                this.$params.append('<span>' + this.customBefore + '</span>');
             }
             
             this.fields = {};
