@@ -3,27 +3,19 @@
 
 
     Nongo.Models.Collection = Backbone.Model.extend({
-        validation: {
-            name: {
-                required: true
-            }
-        },
-        url: function () {
-            return '/api/db/' + this.databaseName + '/collections';
-        },
+        idAttribute: 'name',
         initialize: function (attr, options) {
-            this.databaseName = options.databaseName;
+            this.databaseName = options.databaseName || options.collection.databaseName;
+            this.urlRoot = '/api/db/' + this.databaseName + '/collections';
         }
     });
 
 
     Nongo.Collections.Collections = Backbone.Collection.extend({
         model: Nongo.Models.Collection,
-        url: function () {
-            return '/api/db/' + this.databaseName + '/collections';
-        },
         initialize: function (options) {
             this.databaseName = options.databaseName;
+            this.url = '/api/db/' + this.databaseName + '/collections';
         }
     });
 }());

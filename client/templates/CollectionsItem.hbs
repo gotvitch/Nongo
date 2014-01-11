@@ -1,3 +1,8 @@
 <td><a href="/databases/{{databaseName }}/collections/{{this.name}}" data-link="push" >{{this.name}}</a></td>
 <td>{{humanizeCount this.count}}</td>
 <td>{{humanizeByte this.size}}</td>
+<td>
+    <button type="button" class="btn btn-danger btn-xs js-delete">
+        <span class="glyphicon glyphicon-trash"></span>
+    </button>
+</td>

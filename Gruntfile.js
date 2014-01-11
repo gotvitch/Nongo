@@ -91,6 +91,7 @@ module.exports = function (grunt) {
                     globals: {
                         window: true,
                         document: true,
+                        confirm: true,
                         Nongo: true,
                         '$': true,
                         _: true,

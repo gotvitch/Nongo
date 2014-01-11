@@ -5,6 +5,9 @@
     Nongo.Views.CollectionsItem = Backbone.Marionette.ItemView.extend({
         template: Nongo.Templates.CollectionsItem,
         tagName: 'tr',
+        events: {
+            'click .js-delete': 'delete'
+        },
         initialize: function(options){
             this.databaseName = this.options.databaseName;
         },
@@ -14,6 +17,15 @@
             return _.extend(modelJSON, {
                 databaseName: this.databaseName
             });
+        },
+        delete: function(){
+            if(confirm('Are you sure to delete the database ' + this.model.get('name') + ' ?')){
+                this.model.destroy({
+                    success: function(model, response) {
+                
+                    }
+                });
+            }
         }
     });
 
@@ -64,6 +76,9 @@
                 max = parseInt(data.max, null);
 
             var newCollection = new Nongo.Models.Collection({ name: data.name }, { databaseName: this.databaseName });
+
+            // Remove the id to not consider as a existing collection
+            newCollection.id = null;
 
             if(size){
                 newCollection.set('size', size);

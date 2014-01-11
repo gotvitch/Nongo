@@ -66,7 +66,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     + "</td>\n<td>";
   options = {hash:{},data:data};
   buffer += escapeExpression(((stack1 = helpers.humanizeByte || depth0.humanizeByte),stack1 ? stack1.call(depth0, depth0.size, options) : helperMissing.call(depth0, "humanizeByte", depth0.size, options)))
-    + "</td>";
+    + "</td>\n<td>\n    <button type=\"button\" class=\"btn btn-danger btn-xs js-delete\">\n        <span class=\"glyphicon glyphicon-trash\"></span>\n    </button>\n</td>";
   return buffer;
   });
 
@@ -101,7 +101,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     + "</td>\n<td>";
   options = {hash:{},data:data};
   buffer += escapeExpression(((stack1 = helpers.humanizeCount || depth0.humanizeCount),stack1 ? stack1.call(depth0, depth0.objects, options) : helperMissing.call(depth0, "humanizeCount", depth0.objects, options)))
-    + "</td>";
+    + "</td>\n<td>\n    <button type=\"button\" class=\"btn btn-danger btn-xs js-delete\">\n        <span class=\"glyphicon glyphicon-trash\"></span>\n    </button>\n</td>";
   return buffer;
   });
 
@@ -153,5 +153,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Create database</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Data Size</th>\n      <th>File Size</th>\n      <th>Collections</th>\n      <th>Objects</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Create database</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Data Size</th>\n      <th>File Size</th>\n      <th>Collections</th>\n      <th>Objects</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
   });

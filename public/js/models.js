@@ -3,27 +3,19 @@
 
 
     Nongo.Models.Collection = Backbone.Model.extend({
-        validation: {
-            name: {
-                required: true
-            }
-        },
-        url: function () {
-            return '/api/db/' + this.databaseName + '/collections';
-        },
+        idAttribute: 'name',
         initialize: function (attr, options) {
-            this.databaseName = options.databaseName;
+            this.databaseName = options.databaseName || options.collection.databaseName;
+            this.urlRoot = '/api/db/' + this.databaseName + '/collections';
         }
     });
 
 
     Nongo.Collections.Collections = Backbone.Collection.extend({
         model: Nongo.Models.Collection,
-        url: function () {
-            return '/api/db/' + this.databaseName + '/collections';
-        },
         initialize: function (options) {
             this.databaseName = options.databaseName;
+            this.url = '/api/db/' + this.databaseName + '/collections';
         }
     });
 }());
@@ -33,10 +25,8 @@
     'use strict';
 
     Nongo.Models.Database = Backbone.Model.extend({
-        idAttribute: 'name',
-        url: function () {
-            return '/api/db';
-        },
+        idAttribute: 'db',
+        urlRoot: '/api/db',
         initialize: function (options) {
         }
     });
@@ -45,7 +35,7 @@
     Nongo.Collections.Databases = Backbone.Collection.extend({
         model: Nongo.Models.Database,
         comparator: function(database) {
-            return database.get('name');
+            return database.get('db');
         },
         url: function () {
             return '/api/db';
