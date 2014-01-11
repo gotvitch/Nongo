@@ -70,7 +70,7 @@ describe('API database', function () {
 
         it('should return all databases names', function (done) {
             request
-            .get(Nongo.apiUrl + 'db')
+            .get(Nongo.apiUrl + 'db/names')
             .set('Accept', 'application/json')
             .end(function(res){
                 if (res.error) {
