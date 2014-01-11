@@ -88,5 +88,17 @@ module.exports = {
                 next(err);
             })
             .done();
+    },
+    names: function(req, res, next){
+        Nongo.mongo.adminDb()
+            .then(function (adminDb) {
+                return Q.ninvoke(adminDb, 'listDatabases');
+            })
+            .then(function (dbs){
+                res.json(_.sortBy(_.map(dbs.databases, function(db){ return db.name; })));
+            })
+            .fail(function (err) {
+                next(err);
+            });
     }
 };

@@ -83,7 +83,7 @@ describe('API collection', function () {
         });
     });
 
-    describe('List collection', function () {
+    describe('List collections', function () {
         it('should list collection', function (done) {
             request
             .get(Nongo.apiUrl + 'db/' + mongoHelper.testDatabaseName + '/collections')
@@ -95,6 +95,24 @@ describe('API collection', function () {
                     res.status.should.eql(200);
                     res.body.should.be.instanceof(Array).and.have.lengthOf(1);
                     res.body[0].should.have.property('name').and.equal(testCollectionName);
+                    done();
+                }
+            });
+        });
+    });
+
+    describe('List collections names', function () {
+        it('should list collection', function (done) {
+            request
+            .get(Nongo.apiUrl + 'db/' + mongoHelper.testDatabaseName + '/collections/names')
+            .set('Accept', 'application/json')
+            .end(function(res){
+                if (res.error) {
+                    done(res.error);
+                } else {
+                    res.status.should.eql(200);
+                    res.body.should.be.instanceof(Array).and.have.lengthOf(1);
+                    res.body[0].should.eql(testCollectionName);
                     done();
                 }
             });

@@ -58,6 +58,37 @@ module.exports = {
             })
             .done();
     },
+    names: function(req, res, next){
+
+        var databaseName = req.params.database;
+
+        Nongo.mongo
+            .db(databaseName)
+            .then(function (db) {
+                return Q.ninvoke(db, 'collectionNames');
+            })
+            .then(function (collections) {
+
+                res.send(
+                    _.chain(collections)
+                    .filter(function(collection){
+                        return !_.any(SYSTEM_COLLECTIONS, function(systemCollection){
+                            return ((databaseName + systemCollection) === collection.name);
+                        });
+                    })
+                    .map(function(collection){
+                        // Remove the name of database "test.cars" => "cars"
+                        return collection.name.substring(databaseName.length + 1);
+                    })
+                    .sortBy()
+                    .value()
+                );
+            })
+            .fail(function (err) {
+                next(err);
+            })
+            .done();
+    },
     create: function(req, res, next){
 
         var databaseName = req.params.database,

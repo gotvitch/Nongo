@@ -43,11 +43,13 @@ Server = function () {
 
     // Databases routes
     app.get('/api/db', database.list);
+    app.get('/api/db/names', database.names);
     app.post('/api/db', database.create);
     app.delete('/api/db/:database', database.drop);
 
     // Collections routes
     app.get('/api/db/:database/collections', collection.list);
+    app.get('/api/db/:database/collections/names', collection.names);
     app.post('/api/db/:database/collections', collection.create);
     app.delete('/api/db/:database/collections/:collection', collection.drop);
 

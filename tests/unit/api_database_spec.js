@@ -39,11 +39,36 @@ describe('API database', function () {
             .fail(done);
         });
 
-        after(function (done) {
-            done();
+        it('should return all databases', function (done) {
+            request
+            .get(Nongo.apiUrl + 'db')
+            .set('Accept', 'application/json')
+            .end(function(res){
+                if (res.error) {
+                    done(res.error);
+                } else {
+                    res.body.should.be.instanceof(Array).and.have.lengthOf(databases.length);
+                    done();
+                }
+            });
+        });
+    });
+
+
+    describe('List database names', function () {
+
+        var databases;
+
+        before (function (done) {
+            mongoHelper.listDatabases()
+            .then(function (dbs){
+                databases = dbs;
+                done();
+            })
+            .fail(done);
         });
 
-        it('should return all databases', function (done) {
+        it('should return all databases names', function (done) {
             request
             .get(Nongo.apiUrl + 'db')
             .set('Accept', 'application/json')
