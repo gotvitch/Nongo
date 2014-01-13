@@ -32,16 +32,7 @@ describe('API documents', function () {
 
     after(function (done) {
         server.close();
-
-        nongoHelper.startServer()
-        .then(function(srv){
-            server = srv;
-        })
-        .then(mongoHelper.dropTestDatabase)
-        .then(function(){
-            done();
-        })
-        .fail(done);
+        done();
     });
 
 
