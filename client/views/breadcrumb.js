@@ -17,6 +17,7 @@
 
             if(database){
                 self.$('.database-name').html(database);
+                self.$('.database-name').parent().attr('href', '/databases/' + database);
 
                 $.get('/api/db/names', function( data ) {
                     var dbHtml = '';
@@ -38,6 +39,7 @@
 
             if(collection){
                 self.$('.collection-name').html(collection);
+                self.$('.collection-name').parent().attr('href', '/databases/' + database + '/collections/' + collection);
 
                 $.get('/api/db/' + database + '/collections/names', function( data ) {
                     var collectionHtml = '';

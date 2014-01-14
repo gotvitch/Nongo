@@ -3,12 +3,10 @@
 
     Nongo.Views.App = Backbone.Marionette.Layout.extend({
         el: 'body',
-        //template: Nongo.Templates.App,
         regions: {
             content: '#content'
         },
         initialize: function () {
-            //return this.render();
             this.breabcrumbView = new Nongo.Views.Breadcrumb();
         },
         updateBreadCrumb: function(data){
@@ -28,11 +26,6 @@
                 }
             });
         },
-        showTest: function(){
-            
-
-            //this.content.show());
-        },
         showDatabase: function(databaseName){
             var databaseView = new Nongo.Views.Database({ databaseName: databaseName });
             this.content.show(databaseView);
@@ -51,7 +44,11 @@
 
             var collectionView = this.content.currentView;
 
-            if(!this.content.currentView || !(this.content.currentView instanceof Nongo.Views.Collection)){
+            if(!this.content.currentView
+                || !(this.content.currentView instanceof Nongo.Views.Collection)
+                || this.content.currentView.databaseName != databaseName
+                || this.content.currentView.collectionName != collectionName){
+
                 collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
                 this.content.show(collectionView);
             }
@@ -93,6 +90,7 @@
 
             if(database){
                 self.$('.database-name').html(database);
+                self.$('.database-name').parent().attr('href', '/databases/' + database);
 
                 $.get('/api/db/names', function( data ) {
                     var dbHtml = '';
@@ -114,6 +112,7 @@
 
             if(collection){
                 self.$('.collection-name').html(collection);
+                self.$('.collection-name').parent().attr('href', '/databases/' + database + '/collections/' + collection);
 
                 $.get('/api/db/' + database + '/collections/names', function( data ) {
                     var collectionHtml = '';
@@ -149,7 +148,7 @@
             return {
                 database: this.databaseName,
                 collection: this.collectionName
-            }
+            };
         },
         showDocuments: function(documentId){
             this.showTab('documents');
@@ -168,7 +167,7 @@
         },
 
         onDomRefresh: function(){
-            this.documentsView = new Nongo.Views.Documents({ 
+            this.documentsView = new Nongo.Views.Documents({
                 el: '#documents',
                 databaseName: this.databaseName,
                 collectionName: this.collectionName

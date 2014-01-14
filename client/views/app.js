@@ -3,12 +3,10 @@
 
     Nongo.Views.App = Backbone.Marionette.Layout.extend({
         el: 'body',
-        //template: Nongo.Templates.App,
         regions: {
             content: '#content'
         },
         initialize: function () {
-            //return this.render();
             this.breabcrumbView = new Nongo.Views.Breadcrumb();
         },
         updateBreadCrumb: function(data){
@@ -28,11 +26,6 @@
                 }
             });
         },
-        showTest: function(){
-            
-
-            //this.content.show());
-        },
         showDatabase: function(databaseName){
             var databaseView = new Nongo.Views.Database({ databaseName: databaseName });
             this.content.show(databaseView);
@@ -51,7 +44,11 @@
 
             var collectionView = this.content.currentView;
 
-            if(!this.content.currentView || !(this.content.currentView instanceof Nongo.Views.Collection)){
+            if(!this.content.currentView
+                || !(this.content.currentView instanceof Nongo.Views.Collection)
+                || this.content.currentView.databaseName != databaseName
+                || this.content.currentView.collectionName != collectionName){
+
                 collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
                 this.content.show(collectionView);
             }

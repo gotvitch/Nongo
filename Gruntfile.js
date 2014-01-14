@@ -178,13 +178,13 @@ module.exports = function (grunt) {
                         '<%= paths.app %>/bower_components/underscore/underscore.js',
                         '<%= paths.app %>/bower_components/backbone/backbone.js',
                         '<%= paths.app %>/bower_components/marionette/lib/backbone.marionette.js',
-                        //'<%= paths.app %>/assets/js/backbone-validation.js',
                         '<%= paths.app %>/bower_components/handlebars/handlebars.js',
                         '<%= paths.app %>/bower_components/bootstrap/dist/js/bootstrap.js',
                         '<%= paths.app %>/assets/js/jquery-caret.js',
                         '<%= paths.app %>/bower_components/codemirror/lib/codemirror.js',
                         '<%= paths.app %>/bower_components/codemirror/mode/javascript/javascript.js',
-                        '<%= paths.app %>/bower_components/codemirror/addon/edit/matchbrackets.js'
+                        '<%= paths.app %>/bower_components/codemirror/addon/edit/matchbrackets.js',
+                        '<%= paths.app %>/bower_components/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'
                     ],
 
                     '<%= paths.build %>/js/models.js': [
