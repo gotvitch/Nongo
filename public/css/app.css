@@ -11,12 +11,9 @@ body {
 #database-content {
   padding: 15px 0;
 }
-/*#breadcrumb li+li:before {
-  padding: 0 5px;
-  color: #ccc;
-  content: "/\00a0";
+.tab-content {
+  padding: 15px 0;
 }
-*/
 .document-editor {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -57,7 +54,7 @@ body {
 .shell-form {
   color: #555;
   position: relative;
-  margin: 10px 0;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
 }
 .shell-form span {

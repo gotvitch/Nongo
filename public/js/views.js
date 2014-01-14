@@ -40,17 +40,35 @@
 
             this.breabcrumbView.update({ database: databaseName });
         },
-        showCollection: function (databaseName, collectionName) {
-            var collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
-            this.content.show(collectionView);
-            collectionView.showDocuments();
+        showCollection: function(databaseName){
+            var databaseView = new Nongo.Views.Database({ databaseName: databaseName });
+            this.content.show(databaseView);
+            databaseView.showCollections();
+
+            this.breabcrumbView.update({ database: databaseName });
+        },
+        showDocuments: function (databaseName, collectionName, documentId) {
+
+            var collectionView = this.content.currentView;
+
+            if(!this.content.currentView || !(this.content.currentView instanceof Nongo.Views.Collection)){
+                collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
+                this.content.show(collectionView);
+            }
+
+            collectionView.showDocuments(documentId);
 
             this.breabcrumbView.update({ database: databaseName, collection: collectionName });
         },
-        showDocuments: function (databaseName, collectionName, documentId) {
-            var collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
-            this.content.show(collectionView);
-            collectionView.showDocuments(documentId);
+        showIndexes: function (databaseName, collectionName) {
+            var collectionView = this.content.currentView;
+
+            if(!this.content.currentView || !(this.content.currentView instanceof Nongo.Views.Collection)){
+                collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
+                this.content.show(collectionView);
+            }
+            
+            collectionView.showIndexes();
 
             this.breabcrumbView.update({ database: databaseName, collection: collectionName });
         }
@@ -127,9 +145,40 @@
             this.databaseName = this.options.databaseName;
             this.collectionName = this.options.collectionName;
         },
+        serializeData: function () {
+            return {
+                database: this.databaseName,
+                collection: this.collectionName
+            }
+        },
         showDocuments: function(documentId){
-            var documentsView = new Nongo.Views.Documents({ databaseName: this.databaseName, collectionName: this.collectionName, documentId: documentId });
-            this.content.show(documentsView);
+            this.showTab('documents');
+            this.documentsView.showDocuments(documentId);
+        },
+        showIndexes: function(){
+            this.showTab('indexes');
+        },
+
+        showTab: function(tab){
+            this.$('.nav-tabs li').removeClass('active');
+            this.$('.nav-tabs li[data-tab="' + tab + '"]').addClass('active');
+
+            this.$('.tab-content > div').hide();
+            this.$('.tab-content div#' + tab).show();
+        },
+
+        onDomRefresh: function(){
+            this.documentsView = new Nongo.Views.Documents({ 
+                el: '#documents',
+                databaseName: this.databaseName,
+                collectionName: this.collectionName
+            }).render();
+
+            this.indexesView = new Nongo.Views.Indexes({
+                el: '#indexes',
+                databaseName: this.databaseName,
+                collectionName: this.collectionName
+            }).render();
         }
     });
 }());
@@ -377,6 +426,7 @@
     });
 
     Nongo.Views.Documents = Backbone.Marionette.CompositeView.extend({
+        el: '#document',
         template: Nongo.Templates.Documents,
         itemView: Nongo.Views.DocumentsItem,
         itemViewContainer: '.documents',
@@ -394,14 +444,10 @@
 
             this.databaseName = this.options.databaseName;
             this.collectionName = this.options.collectionName;
-            this.documentId = this.options.documentId;
 
             this.collection = new Nongo.Collections.Documents({ databaseName: this.databaseName, collectionName: this.collectionName });
-
-
-            //this.collection.fetch({});
         },
-        onDomRefresh: function(){
+        onRender: function(){
             this.shellForm = new Nongo.Views.ShellForm({ config: 'db.find', customBefore: ('db.' + this.collectionName + '.') });
 
             this.listenTo(this.shellForm, 'submit', this.runQuery, this);
@@ -410,15 +456,14 @@
 
             this.$el.prepend(this.shellForm.$el);
 
-            if(this.documentId){
-                this.showDocument(this.documentId);
-                this.documentId = null;
-            }else{
-                this.runQuery();
-            }
+            
         },
-        showDocument: function(documentId){
-            this.shellForm.set({ query: documentId });
+        showDocuments: function(documentId){
+
+            if(documentId){
+                this.shellForm.set({ query: documentId });
+            }
+            
             this.runQuery();
         },
         add: function(){
@@ -549,7 +594,115 @@
         }
     });
 }());
+(function () {
+    'use strict';
 
+
+    Nongo.Views.IndexesItem = Backbone.Marionette.ItemView.extend({
+        template: Nongo.Templates.IndexesItem,
+        tagName: 'tr',
+        events: {
+            'click .js-delete': 'delete'
+        },
+        initialize: function(options){
+
+        },
+        delete: function(){
+            if(confirm('Are you sure to delete the database ' + this.model.get('db') + ' ?')){
+                this.model.destroy({
+                    success: function(model, response) {
+                
+                    }
+                });
+            }
+        }
+    });
+
+    Nongo.Views.Indexes = Backbone.Marionette.CompositeView.extend({
+        template: Nongo.Templates.Indexes,
+        itemView: Nongo.Views.IndexesItem,
+        itemViewContainer: 'tbody',
+        events: {
+            'click .js-refresh': 'refresh',
+            'click .js-add': 'showCreateIndex'
+        },
+        initialize: function(options){
+            this.databaseName = this.options.databaseName;
+            this.collectionName = this.options.collectionName;
+            
+            this.collection = new Nongo.Collections.Indexes({ databaseName: this.databaseName, collectionName: this.collectionName });
+            this.collection.fetch({});
+        },
+        refresh: function(e){
+            this.collection.fetch();
+        },
+        showCreateIndex: function(){
+            this.shellForm = new Nongo.Views.ShellForm({
+                cancel: true,
+                config: 'db.ensureIndex',
+                customBefore: ('db.' + this.collectionName + '.')
+            });
+
+            this.listenTo(this.shellForm, 'submit', this.createIndex, this);
+            this.listenTo(this.shellForm, 'cancel', this.closeShellForm, this);
+
+            this.shellForm.render();
+
+            this.$('.shell-form-wrapper').html(this.shellForm.$el.hide());
+
+            this.shellForm.$el.slideDown(200);
+        },
+        createIndex: function(data){
+
+            var self = this;
+
+            try {
+                eval(data.keys);
+            } catch (error) {
+                alert('Fields parsing error.');
+            }
+
+            if(_.isEmpty(data.keys)){
+                alert('Index key cannot be blank.');
+            }
+
+
+            var newIndex = new Nongo.Models.Index({ keys: data.keys }, { databaseName: this.databaseName, collectionName: this.collectionName });
+
+            if(data.name){
+                newIndex.set('name', data.name);
+            }
+
+            if(data.sparse){
+                newIndex.set('sparse', data.sparse);
+            }
+
+            if(data.unique){
+                newIndex.set('unique', data.unique);
+            }
+
+            // Remove the id to not consider as a existing index
+            newIndex.id = null;
+
+            newIndex.save({}, {
+                success: function(model, response, options){
+                    self.closeShellForm();
+                    self.collection.fetch();
+                },
+                error: function(model, xhr, options){
+                    throw new Error('Index not save');
+                }
+            });
+
+        },
+        closeShellForm: function(){
+            var self = this;
+            this.shellForm.$el.slideUp(200, function(){
+                self.shellForm.remove();
+            });
+        }
+    });
+}());
 (function () {
     'use strict';
 
@@ -811,11 +964,7 @@
         }
 
         this.isChild = isChild;
-        if (this.text && this.isChild) {
-            this['class'] += ' text';
-        }
-
-        this.el = $('<span>').addClass(this['class']).append(this.before, this.text);
+        this.el = $('<span>').append(this.before, this.text);
 
         if (this.optional) {
             this.el.addClass('optional');
@@ -870,13 +1019,14 @@
         type: 'text',
         optional: false,
         requires: false, // Dependency
+        multi_options: false,
+
 
         // Initialize is an empty function by default. Override it with your own
         // initialization logic.
         initialize: function(){},
 
         fullText:  function() {
-
             if(this.subFields){
                 if (this.type === 'hash') {
                     return '{ ' + _.compact(_.map(this.childrens, function(child){ return child.getText(); })).join(',') + ' }';
@@ -922,13 +1072,12 @@
             }
         },
         val: function() {
-            var t;
             if (!_.isEmpty(this.input) && this.isVisible()) {
-                t = this.input.text().replace('\u200B', '');
+                var text = this.input.text().replace('\u200B', '');
                 if (this.placeholder) {
-                    t = t.replace(new RegExp('^ *' + this.placeholder + ' *$'), '');
+                    text = text.replace(new RegExp('^ *' + this.placeholder + ' *$'), '');
                 }
-                return t;
+                return text;
             } else {
                 return this.isVisible();
             }
@@ -1008,7 +1157,7 @@
                     placeholder: 'name'
                 },
                 {
-                    name: 'capped',
+                    type: 'capped',
                     before: ', { capped: true',
                     after: '}',
                     optional: true,
@@ -1023,6 +1172,49 @@
                             before: ', max: ',
                             button: 'max',
                             requires: 'size'
+                        }
+                    ]
+                },
+                {
+                    text: ')'
+                }
+            ],
+            submit: {
+                value: 'Create collection',
+                'class': 'run'
+            }
+        },
+        'db.ensureIndex': {
+            fields: [
+                {
+                    name: 'keys',
+                    type: 'hash',
+                    before: 'ensureIndex({',
+                    after: '}'
+                },
+                {
+                    before: ', { ',
+                    after: ' }',
+                    subFields: [
+                        {
+                            name: 'background',
+                            text: 'background: true',
+                            visible: true
+                        },
+                        {
+                            name: 'name',
+                            before: ', name: ',
+                            button: 'name'
+                        },
+                        {
+                            name: 'unique',
+                            text: ', unique: true',
+                            button: 'unique'
+                        },
+                        {
+                            name: 'sparse',
+                            text: ', sparse: true',
+                            button: 'sparse'
                         }
                     ]
                 },
@@ -1077,11 +1269,6 @@
                     after: ')',
                     type: 'number',
                     value: 10
-                },
-                {
-                    name: 'explain',
-                    text: '.explain()',
-                    button: 'explain()'
                 }
             ],
             submit: {

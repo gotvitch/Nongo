@@ -259,11 +259,7 @@
         }
 
         this.isChild = isChild;
-        if (this.text && this.isChild) {
-            this['class'] += ' text';
-        }
-
-        this.el = $('<span>').addClass(this['class']).append(this.before, this.text);
+        this.el = $('<span>').append(this.before, this.text);
 
         if (this.optional) {
             this.el.addClass('optional');
@@ -318,13 +314,14 @@
         type: 'text',
         optional: false,
         requires: false, // Dependency
+        multi_options: false,
+
 
         // Initialize is an empty function by default. Override it with your own
         // initialization logic.
         initialize: function(){},
 
         fullText:  function() {
-
             if(this.subFields){
                 if (this.type === 'hash') {
                     return '{ ' + _.compact(_.map(this.childrens, function(child){ return child.getText(); })).join(',') + ' }';
@@ -370,13 +367,12 @@
             }
         },
         val: function() {
-            var t;
             if (!_.isEmpty(this.input) && this.isVisible()) {
-                t = this.input.text().replace('\u200B', '');
+                var text = this.input.text().replace('\u200B', '');
                 if (this.placeholder) {
-                    t = t.replace(new RegExp('^ *' + this.placeholder + ' *$'), '');
+                    text = text.replace(new RegExp('^ *' + this.placeholder + ' *$'), '');
                 }
-                return t;
+                return text;
             } else {
                 return this.isVisible();
             }
@@ -456,7 +452,7 @@
                     placeholder: 'name'
                 },
                 {
-                    name: 'capped',
+                    type: 'capped',
                     before: ', { capped: true',
                     after: '}',
                     optional: true,
@@ -471,6 +467,49 @@
                             before: ', max: ',
                             button: 'max',
                             requires: 'size'
+                        }
+                    ]
+                },
+                {
+                    text: ')'
+                }
+            ],
+            submit: {
+                value: 'Create collection',
+                'class': 'run'
+            }
+        },
+        'db.ensureIndex': {
+            fields: [
+                {
+                    name: 'keys',
+                    type: 'hash',
+                    before: 'ensureIndex({',
+                    after: '}'
+                },
+                {
+                    before: ', { ',
+                    after: ' }',
+                    subFields: [
+                        {
+                            name: 'background',
+                            text: 'background: true',
+                            visible: true
+                        },
+                        {
+                            name: 'name',
+                            before: ', name: ',
+                            button: 'name'
+                        },
+                        {
+                            name: 'unique',
+                            text: ', unique: true',
+                            button: 'unique'
+                        },
+                        {
+                            name: 'sparse',
+                            text: ', sparse: true',
+                            button: 'sparse'
                         }
                     ]
                 },
@@ -525,11 +564,6 @@
                     after: ')',
                     type: 'number',
                     value: 10
-                },
-                {
-                    name: 'explain',
-                    text: '.explain()',
-                    button: 'explain()'
                 }
             ],
             submit: {

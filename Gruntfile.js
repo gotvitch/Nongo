@@ -53,7 +53,8 @@ module.exports = function (grunt) {
                 proto: true,
                 sub: true,
                 unused: 'vars',
-                '-W041': true // Remove warning for usage of == instead of ===
+                '-W041': true, // Remove warning for usage of == instead of ===
+                '-W061': true // Remove warning for usage of eval
                 
             },
             server: {
@@ -92,6 +93,7 @@ module.exports = function (grunt) {
                         window: true,
                         document: true,
                         confirm: true,
+                        alert: true,
                         Nongo: true,
                         '$': true,
                         _: true,

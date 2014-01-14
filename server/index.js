@@ -8,6 +8,7 @@ var express     = require('express'),
     database    = require('./routes/database'),
     collection  = require('./routes/collection'),
     document    = require('./routes/document'),
+    indexes     = require('./routes/indexes'),
     Q           = require('q'),
     path        = require('path'),
     Server;
@@ -57,6 +58,11 @@ Server = function () {
     app.get('/api/db/:database/collections/:collection/documents', document.list);
     app.post('/api/db/:database/collections/:collection/documents', document.create);
     app.put('/api/db/:database/collections/:collection/documents/:id', document.update);
+
+    // Indexes routes
+    app.get('/api/db/:database/collections/:collection/indexes', indexes.list);
+    app.post('/api/db/:database/collections/:collection/indexes', indexes.create);
+    app.delete('/api/db/:database/collections/:collection/indexes/:name', indexes.drop);
 
     this.app = app;
 

@@ -115,6 +115,7 @@
     });
 
     Nongo.Views.Documents = Backbone.Marionette.CompositeView.extend({
+        el: '#document',
         template: Nongo.Templates.Documents,
         itemView: Nongo.Views.DocumentsItem,
         itemViewContainer: '.documents',
@@ -132,14 +133,10 @@
 
             this.databaseName = this.options.databaseName;
             this.collectionName = this.options.collectionName;
-            this.documentId = this.options.documentId;
 
             this.collection = new Nongo.Collections.Documents({ databaseName: this.databaseName, collectionName: this.collectionName });
-
-
-            //this.collection.fetch({});
         },
-        onDomRefresh: function(){
+        onRender: function(){
             this.shellForm = new Nongo.Views.ShellForm({ config: 'db.find', customBefore: ('db.' + this.collectionName + '.') });
 
             this.listenTo(this.shellForm, 'submit', this.runQuery, this);
@@ -148,15 +145,14 @@
 
             this.$el.prepend(this.shellForm.$el);
 
-            if(this.documentId){
-                this.showDocument(this.documentId);
-                this.documentId = null;
-            }else{
-                this.runQuery();
-            }
+            
         },
-        showDocument: function(documentId){
-            this.shellForm.set({ query: documentId });
+        showDocuments: function(documentId){
+
+            if(documentId){
+                this.shellForm.set({ query: documentId });
+            }
+            
             this.runQuery();
         },
         add: function(){

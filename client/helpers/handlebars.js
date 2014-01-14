@@ -39,5 +39,12 @@
     });
 
 
+    Handlebars.registerHelper('stringify', function (value) {
+        return JSON.stringify(value);
+    });
+
+    Handlebars.registerHelper('yesno', function (value) {
+        return value ? 'Yes' : 'No';
+    });
     
 }());
