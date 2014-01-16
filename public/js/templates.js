@@ -33,7 +33,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Create collection</button>\n</div>\n\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Documents</th>\n      <th>Size</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Create collection</button>\n</div>\n\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Documents</th>\n      <th>Size</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
   });
 
 this["Nongo"]["Templates"]["CollectionsItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -152,7 +152,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add index</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Fields</th>\n      <th>Unique</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add index</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Fields</th>\n      <th>Unique</th>\n      <th>Sparse</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
   });
 
 this["Nongo"]["Templates"]["IndexesItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -172,6 +172,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   buffer += "</td>\n<td>";
   options = {hash:{},data:data};
   stack2 = ((stack1 = helpers.yesno || depth0.yesno),stack1 ? stack1.call(depth0, depth0.unique, options) : helperMissing.call(depth0, "yesno", depth0.unique, options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "</td>\n<td>";
+  options = {hash:{},data:data};
+  stack2 = ((stack1 = helpers.yesno || depth0.yesno),stack1 ? stack1.call(depth0, depth0.sparse, options) : helperMissing.call(depth0, "yesno", depth0.sparse, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "</td>\n<td>\n    <button type=\"button\" class=\"btn btn-danger btn-xs js-delete\">\n        <span class=\"glyphicon glyphicon-trash\"></span>\n    </button>\n</td>";
   return buffer;

@@ -518,7 +518,7 @@
                 }
             ],
             submit: {
-                value: 'Create collection',
+                value: 'Create index',
                 'class': 'run'
             }
         },
