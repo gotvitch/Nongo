@@ -1,72 +1,62 @@
 
+/* =============================================================================
+   Layout
+   ============================================================================= */
 body {
     position: relative;
     padding-top: 50px;
 }
-.container{ width: 970px !important; }
 
 #content{ padding: 15px; }
-#database-content{ padding: 15px 0;}
-
 
 .tab-content{ padding: 15px 0; }
+.container{ width: 970px !important; }
 
+
+/* =============================================================================
+   Documents
+   ============================================================================= */
 .document-editor{
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
 }
-
 .document-title h3{ margin-top: 0;}
-
-
 .document{ margin: 20px 0; }
-
 .documents{ list-style: none; padding-left: 0;}
-
 .document-wrapper{ overflow-x: auto; margin: 0;}
-
-.document-content{
-  white-space: pre;
-}
-.document .key {
-  color: #073642;
-}
-.document .value {
-  color: #268bd2;
-}
-.document .string {
-  color: #a11;
-}
-.document .function {
-  color: #0086B3;
-}
-.document .number {
-  color: #099;
-}
+.document-content{ white-space: pre; }
+.document .key{ color: #073642; }
+.document .value{ color: #268bd2; }
+.document .string{ color: #a11; }
+.document .function{ color: #0086B3; }
+.document .number{ color: #099; }
 
 
 
 
+/* =============================================================================
+   Shell Form
+   ============================================================================= */
+@shell-color: #51c441;
+@shell-param-color: darken(white, 20%);
+@shell-param-focus-color: white;
 
-.shell-form {
-  color: #555;
+.shell-form{
+  color: @shell-color;
   position: relative;
   margin-bottom: 10px;
   border: 1px solid #ccc;
-}
-
-.shell-form span {
-  position: relative;
-}
-
-.shell-form .params {
-  font-family: "Liberation Mono","Ubuntu Mono", monaco, "Lucida Console", "Consolas", monospace;
   background: #322012;
+}
+
+.shell-form span{ position: relative; }
+
+.shell-form .params{
+  font-family: "Liberation Mono","Ubuntu Mono", monaco, "Lucida Console", "Consolas", monospace;
   font-size: 1em;
   line-height: 1.5em;
   padding: 1em .8em;
-  color: #51c441;
 }
 
 
@@ -82,13 +72,13 @@ body {
   margin: 0 .3em;
 }
 .shell-form .text {
-  color: #c1c7c7;
+  color: @shell-color;
 }
 .shell-form span[contentEditable] {
-  color: #c1c7c7;
+  color: @shell-param-color;
   position: relative;
   z-index: 1;
-  border-bottom: 1px solid #51c441;
+  border-bottom: 1px solid @shell-param-color;
   display: inline-block;
   margin: 0 .4em;
   padding: 0 .3em;
@@ -106,7 +96,8 @@ body {
 
 .shell-form span[contentEditable]:focus {
   outline: none;
-  color: #fff;
+  color: @shell-param-focus-color;
+  border-bottom: 1px solid @shell-param-focus-color;
 }
 .shell-form span[contentEditable]::-moz-selection {
   background: rgba(255, 255, 255, 0.6);

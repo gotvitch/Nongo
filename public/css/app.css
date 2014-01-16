@@ -1,19 +1,22 @@
+/* =============================================================================
+   Layout
+   ============================================================================= */
 body {
   position: relative;
   padding-top: 50px;
 }
-.container {
-  width: 970px !important;
-}
 #content {
   padding: 15px;
-}
-#database-content {
-  padding: 15px 0;
 }
 .tab-content {
   padding: 15px 0;
 }
+.container {
+  width: 970px !important;
+}
+/* =============================================================================
+   Documents
+   ============================================================================= */
 .document-editor {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -51,22 +54,24 @@ body {
 .document .number {
   color: #099;
 }
+/* =============================================================================
+   Shell Form
+   ============================================================================= */
 .shell-form {
-  color: #555;
+  color: #51c441;
   position: relative;
   margin-bottom: 10px;
   border: 1px solid #ccc;
+  background: #322012;
 }
 .shell-form span {
   position: relative;
 }
 .shell-form .params {
   font-family: "Liberation Mono", "Ubuntu Mono", monaco, "Lucida Console", "Consolas", monospace;
-  background: #322012;
   font-size: 1em;
   line-height: 1.5em;
   padding: 1em .8em;
-  color: #51c441;
 }
 .shell-form .buttons {
   background: #eee;
@@ -79,12 +84,12 @@ body {
   margin: 0 .3em;
 }
 .shell-form .text {
-  color: #c1c7c7;
+  color: #51c441;
 }
 .shell-form span[contentEditable] {
-  color: #c1c7c7;
+  color: #cccccc;
   z-index: 1;
-  border-bottom: 1px solid #51c441;
+  border-bottom: 1px solid #cccccc;
   display: inline-block;
   margin: 0 .4em;
   padding: 0 .3em;
@@ -99,7 +104,8 @@ body {
 }
 .shell-form span[contentEditable]:focus {
   outline: none;
-  color: #fff;
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
 }
 .shell-form span[contentEditable]::-moz-selection {
   background: rgba(255, 255, 255, 0.6);
