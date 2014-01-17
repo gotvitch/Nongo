@@ -7,7 +7,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "\n\n<ul class=\"nav nav-tabs\">\n  <li data-tab=\"documents\"><a href=\"/databases/";
+  buffer += "<ul class=\"nav nav-tabs\">\n  <li data-tab=\"documents\"><a href=\"/databases/";
   if (stack1 = helpers.database) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.database; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -63,10 +63,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 this["Nongo"]["Templates"]["Database"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  return "<div id=\"database-content\">\n\n</div>";
+  buffer += "<ul class=\"nav nav-tabs\">\n  <li data-tab=\"collections\"><a href=\"/databases/";
+  if (stack1 = helpers.database) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.database; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\" data-link=\"push\">Collections</a></li>\n  <li data-tab=\"users\"><a href=\"/databases/";
+  if (stack1 = helpers.database) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.database; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "/users\" data-link=\"push\">Users</a></li>\n</ul>\n\n\n\n<!-- Tab panes -->\n<div class=\"tab-content\">\n  <div id=\"collections\"></div>\n  <div id=\"users\"></div>\n</div>";
+  return buffer;
   });
 
 this["Nongo"]["Templates"]["DatabaseItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -152,7 +161,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "\n\n<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add index</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Fields</th>\n      <th>Unique</th>\n      <th>Sparse</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  return "<div>\n  <button type=\"button\" class=\"btn btn-default js-refresh\">\n    <span class=\"glyphicon glyphicon-refresh\"></span>\n  </button>\n  <button type=\"button\" class=\"btn btn-default js-add\">Add index</button>\n</div>\n<div class=\"shell-form-wrapper\">\n</div>\n\n<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Fields</th>\n      <th>Unique</th>\n      <th>Sparse</th>\n      <th></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
   });
 
 this["Nongo"]["Templates"]["IndexesItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -178,5 +187,32 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   stack2 = ((stack1 = helpers.yesno || depth0.yesno),stack1 ? stack1.call(depth0, depth0.sparse, options) : helperMissing.call(depth0, "yesno", depth0.sparse, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "</td>\n<td>\n    <button type=\"button\" class=\"btn btn-danger btn-xs js-delete\">\n        <span class=\"glyphicon glyphicon-trash\"></span>\n    </button>\n</td>";
+  return buffer;
+  });
+
+this["Nongo"]["Templates"]["Users"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<table class=\"table table-striped\">\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Read Only</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>";
+  });
+
+this["Nongo"]["Templates"]["UsersItem"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
+
+
+  buffer += "<td>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</a></td>\n<td>";
+  options = {hash:{},data:data};
+  stack2 = ((stack1 = helpers.yesno || depth0.yesno),stack1 ? stack1.call(depth0, depth0.read_only, options) : helperMissing.call(depth0, "yesno", depth0.read_only, options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "</td>";
   return buffer;
   });

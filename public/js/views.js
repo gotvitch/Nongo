@@ -34,9 +34,33 @@
             this.breabcrumbView.update({ database: databaseName });
         },
         showCollection: function(databaseName){
-            var databaseView = new Nongo.Views.Database({ databaseName: databaseName });
-            this.content.show(databaseView);
+            var databaseView = this.content.currentView;
+
+            if(!this.content.currentView
+                || !(this.content.currentView instanceof Nongo.Views.Database)
+                || this.content.currentView.databaseName != databaseName){
+
+                databaseView = new Nongo.Views.Database({ databaseName: databaseName });
+                this.content.show(collectionView);
+            }
+
             databaseView.showCollections();
+
+            this.breabcrumbView.update({ database: databaseName });
+        },
+        showUsers: function(databaseName){
+
+            var databaseView = this.content.currentView;
+
+            if(!this.content.currentView
+                || !(this.content.currentView instanceof Nongo.Views.Database)
+                || this.content.currentView.databaseName != databaseName){
+
+                databaseView = new Nongo.Views.Database({ databaseName: databaseName });
+                this.content.show(databaseView);
+            }
+
+            databaseView.showUsers();
 
             this.breabcrumbView.update({ database: databaseName });
         },
@@ -302,9 +326,36 @@
         initialize: function (options) {
             this.databaseName = this.options.databaseName;
         },
+        serializeData: function () {
+            return {
+                database: this.databaseName
+            };
+        },
         showCollections: function(){
-            var collectionsView = new Nongo.Views.Collections({ databaseName: this.databaseName });
-            this.content.show(collectionsView);
+            this.showTab('collections');
+        },
+        showUsers: function(){
+            this.showTab('users');
+        },
+
+        showTab: function(tab){
+            this.$('.nav-tabs li').removeClass('active');
+            this.$('.nav-tabs li[data-tab="' + tab + '"]').addClass('active');
+
+            this.$('.tab-content > div').hide();
+            this.$('.tab-content div#' + tab).show();
+        },
+
+        onDomRefresh: function(){
+            this.collectionsView = new Nongo.Views.Collections({
+                el: '#collections',
+                databaseName: this.databaseName
+            }).render();
+
+            this.usersView = new Nongo.Views.Users({
+                el: '#users',
+                databaseName: this.databaseName
+            }).render();
         }
     });
 }());
@@ -1276,4 +1327,47 @@
             }
         }
     };
+}());
+(function () {
+    'use strict';
+
+
+    Nongo.Views.UsersItem = Backbone.Marionette.ItemView.extend({
+        template: Nongo.Templates.UsersItem,
+        tagName: 'tr',
+        events: {
+            'click .js-delete': 'delete'
+        },
+        initialize: function(options){
+
+        },
+        delete: function(){
+            if(confirm('Are you sure to delete the database ' + this.model.get('db') + ' ?')){
+                this.model.destroy({
+                    success: function(model, response) {
+                
+                    }
+                });
+            }
+        }
+    });
+
+    Nongo.Views.Users = Backbone.Marionette.CompositeView.extend({
+        template: Nongo.Templates.Users,
+        itemView: Nongo.Views.UsersItem,
+        itemViewContainer: 'tbody',
+        events: {
+            'click .js-refresh': 'refresh',
+        },
+        initialize: function(options){
+            this.databaseName = this.options.databaseName;
+            this.collectionName = this.options.collectionName;
+            
+            this.collection = new Nongo.Collections.Users({ databaseName: this.databaseName, collectionName: this.collectionName });
+            this.collection.fetch({});
+        },
+        refresh: function(e){
+            this.collection.fetch();
+        }
+    });
 }());

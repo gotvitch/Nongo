@@ -5,12 +5,12 @@ var Nongo = require('../nongo'),
 
 
 SYSTEM_COLLECTIONS = [
-    '.system.namespaces',
-    '.system.namespaces',
-    '.system.indexes',
-    '.system.profile',
-    '.system.users',
-    '.system.js'
+    'system.namespaces',
+    'system.namespaces',
+    'system.indexes',
+    'system.profile',
+    'system.users',
+    'system.js'
 ];
 
 
@@ -35,7 +35,7 @@ module.exports = {
                     _.chain(collections)
                     .filter(function(collection){
                         return !_.any(SYSTEM_COLLECTIONS, function(systemCollection){
-                            return ((databaseName + systemCollection) === collection.ns);
+                            return ((databaseName + '.' + systemCollection) === collection.ns);
                         });
                     })
                     .map(function(collection){
@@ -73,7 +73,7 @@ module.exports = {
                     _.chain(collections)
                     .filter(function(collection){
                         return !_.any(SYSTEM_COLLECTIONS, function(systemCollection){
-                            return ((databaseName + systemCollection) === collection.name);
+                            return ((databaseName + '.' + systemCollection) === collection.name);
                         });
                     })
                     .map(function(collection){

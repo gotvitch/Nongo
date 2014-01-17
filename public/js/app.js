@@ -42,6 +42,7 @@
             'databases/:database/collections/:collection/documents/:document': 'document',
             'databases/:database/collections/:collection/indexes': 'indexes',
             'databases/:database/collections/:collection': 'documents',
+            'databases/:database/users': 'users',
             'databases/:database': 'database',
             '*actions': 'defaultRoute',
             ':notFound': 'notFound'
@@ -51,6 +52,9 @@
         },
         database: function(database){
             Nongo.appView.showDatabase(database);
+        },
+        users: function(database){
+            Nongo.appView.showUsers(database);
         },
         collection: function(database, collection){
             Nongo.appView.showCollection(database, collection);

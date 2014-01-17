@@ -34,9 +34,33 @@
             this.breabcrumbView.update({ database: databaseName });
         },
         showCollection: function(databaseName){
-            var databaseView = new Nongo.Views.Database({ databaseName: databaseName });
-            this.content.show(databaseView);
+            var databaseView = this.content.currentView;
+
+            if(!this.content.currentView
+                || !(this.content.currentView instanceof Nongo.Views.Database)
+                || this.content.currentView.databaseName != databaseName){
+
+                databaseView = new Nongo.Views.Database({ databaseName: databaseName });
+                this.content.show(collectionView);
+            }
+
             databaseView.showCollections();
+
+            this.breabcrumbView.update({ database: databaseName });
+        },
+        showUsers: function(databaseName){
+
+            var databaseView = this.content.currentView;
+
+            if(!this.content.currentView
+                || !(this.content.currentView instanceof Nongo.Views.Database)
+                || this.content.currentView.databaseName != databaseName){
+
+                databaseView = new Nongo.Views.Database({ databaseName: databaseName });
+                this.content.show(databaseView);
+            }
+
+            databaseView.showUsers();
 
             this.breabcrumbView.update({ database: databaseName });
         },

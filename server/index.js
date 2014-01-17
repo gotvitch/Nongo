@@ -9,6 +9,7 @@ var express     = require('express'),
     collection  = require('./routes/collection'),
     document    = require('./routes/document'),
     indexes     = require('./routes/indexes'),
+    user        = require('./routes/user'),
     Q           = require('q'),
     path        = require('path'),
     Server;
@@ -63,6 +64,9 @@ Server = function () {
     app.get('/api/db/:database/collections/:collection/indexes', indexes.list);
     app.post('/api/db/:database/collections/:collection/indexes', indexes.create);
     app.delete('/api/db/:database/collections/:collection/indexes/:name', indexes.drop);
+
+    // Users routes
+    app.get('/api/db/:database/users', user.list);
 
     this.app = app;
 
