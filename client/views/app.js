@@ -36,12 +36,12 @@
         showCollection: function(databaseName){
             var databaseView = this.content.currentView;
 
-            if(!this.content.currentView
-                || !(this.content.currentView instanceof Nongo.Views.Database)
-                || this.content.currentView.databaseName != databaseName){
+            if(!this.content.currentView ||
+                !(this.content.currentView instanceof Nongo.Views.Database) ||
+                this.content.currentView.databaseName != databaseName){
 
                 databaseView = new Nongo.Views.Database({ databaseName: databaseName });
-                this.content.show(collectionView);
+                this.content.show(databaseView);
             }
 
             databaseView.showCollections();
@@ -52,9 +52,9 @@
 
             var databaseView = this.content.currentView;
 
-            if(!this.content.currentView
-                || !(this.content.currentView instanceof Nongo.Views.Database)
-                || this.content.currentView.databaseName != databaseName){
+            if(!this.content.currentView ||
+                !(this.content.currentView instanceof Nongo.Views.Database) ||
+                this.content.currentView.databaseName != databaseName){
 
                 databaseView = new Nongo.Views.Database({ databaseName: databaseName });
                 this.content.show(databaseView);
@@ -68,10 +68,10 @@
 
             var collectionView = this.content.currentView;
 
-            if(!this.content.currentView
-                || !(this.content.currentView instanceof Nongo.Views.Collection)
-                || this.content.currentView.databaseName != databaseName
-                || this.content.currentView.collectionName != collectionName){
+            if(!this.content.currentView ||
+                !(this.content.currentView instanceof Nongo.Views.Collection) ||
+                this.content.currentView.databaseName != databaseName ||
+                this.content.currentView.collectionName != collectionName){
 
                 collectionView = new Nongo.Views.Collection({ databaseName: databaseName, collectionName: collectionName });
                 this.content.show(collectionView);
