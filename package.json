@@ -13,7 +13,7 @@
     }
   },
   "bin": {
-    "nongo": "index"
+    "nongo": "bin/nongo"
   },
   "repository": {
     "type": "git",

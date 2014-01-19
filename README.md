@@ -9,11 +9,12 @@ Current features:
 * List/Create/Delete collections
 * Run query on a collection (Find, Sort, Skip, Limit)
 * Create/Edit/Delete documents
+* List/Create/Delete indexes
+* List users
 
 Next features:
 
-* Indexes management
-* User management
+* Create/Edit/Delete user
 * UI improvement
 
 
